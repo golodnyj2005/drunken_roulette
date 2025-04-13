@@ -1,1 +1,228 @@
+/* Основные стили */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: radial-gradient(circle at center, #2a2a3a 0%, #1a1a2a 100%);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
+/* Контейнер рулетки */
+.roulette-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 20px;
+}
+
+/* Колесо рулетки */
+.roulette-wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: conic-gradient(
+    #FF3E9D 0% 8.33%,   /* Розовый неон */
+    #00E0FF 8.33% 16.66%,  /* Голубой неон */
+    #7B2BFF 16.66% 25%, /* Фиолетовый */
+    #FFD600 25% 33.33%, /* Ярко-желтый */
+    #FF7A00 33.33% 41.66%, /* Оранжевый */
+    #00FFA3 41.66% 50%, /* Мятный */
+    #FF1744 50% 58.33%, /* Ярко-красный */
+    #651FFF 58.33% 66.66%, /* Индиго */
+    #00E676 66.66% 75%, /* Зеленый неон */
+    #2979FF 75% 83.33%, /* Кобальтовый */
+    #FF4081 83.33% 91.66%, /* Розовый акцент */
+    #3D5AFE 91.66% 100%  /* Ярко-синий */
+  );
+  box-shadow: 
+    0 0 25px rgba(255, 62, 157, 0.6),
+    inset 0 0 15px rgba(0, 0, 0, 0.8);
+  transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+/* Сектора */
+.sector {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+  transform-origin: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 25px;
+  box-sizing: border-box;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.sector span {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  transform: rotate(15deg);
+  z-index: 2;
+}
+
+/* Стрелка */
+.arrow {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 30px solid #00E0FF;
+  filter: 
+    drop-shadow(0 0 5px #00E0FF)
+    drop-shadow(0 0 10px #00E0FF);
+  z-index: 10;
+  animation: neonPulse 1.5s infinite alternate;
+}
+
+/* Кнопка */
+.cta-button {
+  margin-top: 30px;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #FF3E9D, #00E0FF, #7B2BFF, #FFD600);
+  background-size: 300% 300%;
+  box-shadow: 
+    0 5px 20px rgba(255, 62, 157, 0.4),
+    0 0 10px rgba(0, 224, 255, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(255, 62, 157, 0.6),
+    0 0 15px rgba(0, 224, 255, 0.6);
+}
+
+.cta-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Эффекты */
+@keyframes neonPulse {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.sparks {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  animation: sparkFly 1s forwards;
+  filter: blur(1px);
+}
+
+@keyframes sparkFly {
+  0% { 
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% { 
+    transform: 
+      translate(
+        calc(var(--tx) * 100px),
+        calc(var(--ty) * 100px)
+      );
+    opacity: 0;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .roulette-container {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .sector span {
+    font-size: 14px;
+  }
+  
+  .cta-button {
+    padding: 12px 35px;
+    font-size: 15px;
+  }
+}
+
+/* Центральный круг */
+.center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.8);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.center-circle span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Нумерация внешних секторов */
+.sector::after {
+  content: attr(data-number);
+  position: absolute;
+  bottom: 15px;
+  right: 25px;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.5);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
