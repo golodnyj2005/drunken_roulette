@@ -213,16 +213,19 @@ body {
 .sector::after {
   content: attr(data-number);
   position: absolute;
-  bottom: 15px;
-  right: 25px;
-  font-size: 12px;
+  bottom: 10px; /* Расположение номера внизу */
+  left: 50%; /* Центрируем по горизонтали */
+  transform: translateX(-50%) rotate(calc(-1 * var(--sector-angle))); /* Обратный поворот */
+  font-size: 14px;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(0, 0, 0, 0.5);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  color: #fff; /* Белый текст */
+  background: rgba(0, 0, 0, 0.7); /* Темный фон для контраста */
+  width: 24px; /* Размер номера */
+  height: 24px; /* Размер номера */
+  border-radius: 50%; /* Круглая форма */
   display: flex;
   justify-content: center;
   align-items: center;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* Тень для лучшей читаемости */
+  z-index: 10; /* Гарантируем видимость */
 }
