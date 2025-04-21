@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Создаем 12 секторов
   for (let i = 0; i < 12; i++) {
-  const sector = document.createElement('div');
-  sector.className = 'sector';
-  sector.style.transform = `rotate(${i * 30}deg)`;
-  sector.setAttribute('data-number', i + 1);
-  sector.innerHTML = `<span>${i + 1}</span>`;
-  wheel.appendChild(sector);
-}
+    const sector = document.createElement('div');
+    sector.className = 'sector';
+    sector.style.transform = `rotate(${(i * 30 + 90)}deg)`; // Смещаем на +90°
+    sector.style.setProperty('--sector-angle', `${(i * 30 + 90)}deg`);
+    sector.setAttribute('data-number', i + 1); // Устанавливаем атрибут data-number
+    wheel.appendChild(sector);
+  }
 
   // Добавляем центральный круг
   const centerCircle = document.createElement('div');
@@ -40,13 +40,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Определение результата
     setTimeout(() => {
-      const resultAngle = spinAngle % 360;
-      const sector = Math.floor(resultAngle / 30);
-      const winningNumber = 12 - sector;
+      const resultAngle = spinAngle % 360; // Угол, на котором остановилось колесо
+      const winningNumber = Math.floor((resultAngle - 90) / 30) % 12 + 1; // Вычисляем правильный номер
+      
+      // Обработка отрицательных значений
+      if (winningNumber <= 0) {
+        winningNumber += 12;
+      }
       
       // Эффект победы
       setTimeout(() => {
-        alert(`Выпал сектор: ${winningNumber === 0 ? 12 : winningNumber}`);
+        alert(`Выпал сектор: ${winningNumber}`);
         spinBtn.disabled = false;
       }, 500);
     }, 4000);
