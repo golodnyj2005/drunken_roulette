@@ -64,9 +64,8 @@ body {
 .sector::after {
   content: attr(data-number);
   position: absolute;
-  bottom: 10px; /* Расположение номера внизу */
-  left: 50%; /* Центрируем по горизонтали */
-  transform: translateX(-50%) rotate(calc(-1 * var(--sector-angle))); /* Обратный поворот */
+  bottom: 25px; /* Расположение номера внизу */
+  left: 57%; /* Центрируем по горизонтали */
   font-size: 14px;
   font-weight: bold;
   color: #fff; /* Белый текст */
