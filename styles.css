@@ -51,23 +51,34 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  clip-path: polygon(50% 50%, 100% 0, 100% 100%);
   transform-origin: center;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding-top: 25px;
   box-sizing: border-box;
-  border-right: 1px solid rgba(255,255,255,0.2);
+  z-index: 2;
 }
 
-.sector span {
-  font-size: 16px;
+/* Нумерация секторов */
+.sector::after {
+  content: attr(data-number);
+  position: absolute;
+  bottom: 10px; /* Расположение номера внизу */
+  left: 50%; /* Центрируем по горизонтали */
+  transform: translateX(-50%) rotate(calc(-1 * var(--sector-angle))); /* Обратный поворот */
+  font-size: 14px;
   font-weight: bold;
-  color: white;
-  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
-  transform: rotate(15deg);
-  z-index: 2;
+  color: #fff; /* Белый текст */
+  background: rgba(0, 0, 0, 0.7); /* Темный фон для контраста */
+  width: 24px; /* Размер номера */
+  height: 24px; /* Размер номера */
+  border-radius: 50%; /* Круглая форма */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* Тень для лучшей читаемости */
+  z-index: 10; /* Гарантируем видимость */
 }
 
 /* Стрелка */
@@ -120,68 +131,6 @@ body {
   cursor: not-allowed;
 }
 
-/* Эффекты */
-@keyframes neonPulse {
-  from { opacity: 0.8; }
-  to { opacity: 1; }
-}
-
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.sparks {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  pointer-events: none;
-}
-
-.spark {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  animation: sparkFly 1s forwards;
-  filter: blur(1px);
-}
-
-@keyframes sparkFly {
-  0% { 
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-  100% { 
-    transform: 
-      translate(
-        calc(var(--tx) * 100px),
-        calc(var(--ty) * 100px)
-      );
-    opacity: 0;
-  }
-}
-
-/* Адаптивность */
-@media (max-width: 480px) {
-  .roulette-container {
-    width: 280px;
-    height: 280px;
-  }
-  
-  .sector span {
-    font-size: 14px;
-  }
-  
-  .cta-button {
-    padding: 12px 35px;
-    font-size: 15px;
-  }
-}
-
 /* Центральный круг */
 .center-circle {
   position: absolute;
@@ -209,23 +158,38 @@ body {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
-/* Нумерация внешних секторов */
-.sector::after {
-  content: attr(data-number);
+/* Контейнер для искр */
+.sparks {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Искра */
+.spark {
   position: absolute;
-  bottom: 10px; /* Расположение номера внизу */
-  left: 50%; /* Центрируем по горизонтали */
-  transform: translateX(-50%) rotate(calc(-1 * var(--sector-angle))); /* Обратный поворот */
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff; /* Белый текст */
-  background: rgba(0, 0, 0, 0.7); /* Темный фон для контраста */
-  width: 24px; /* Размер номера */
-  height: 24px; /* Размер номера */
-  border-radius: 50%; /* Круглая форма */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* Тень для лучшей читаемости */
-  z-index: 10; /* Гарантируем видимость */
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  animation: sparkFly 1s forwards;
+  filter: blur(1px);
+}
+
+/* Анимация искр */
+@keyframes sparkFly {
+  from { 
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  to { 
+    transform: 
+      translate(
+        calc(var(--tx) * 100px),
+        calc(var(--ty) * 100px)
+      );
+    opacity: 0;
+  }
 }
