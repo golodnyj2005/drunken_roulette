@@ -11,19 +11,29 @@ body {
   overflow-x: hidden;
 }
 
+/* Заголовок */
+.roulette-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px; /* Отступ между заголовком и рулеткой */
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
 /* Контейнер рулетки */
 .roulette-container {
-  position: relative;
+  position: relative; /* Для позиционирования стрелки */
   width: 320px;
-  height: 320px;
+  height: auto; /* Высота зависит от содержимого */
   margin: 20px;
+  text-align: center; /* Центрируем элементы */
 }
 
 /* Колесо рулетки */
 .roulette-wheel {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 320px; /* Фиксированная высота */
   border-radius: 50%;
   overflow: hidden;
   background: conic-gradient(
@@ -44,6 +54,7 @@ body {
     0 0 25px rgba(255, 62, 157, 0.6),
     inset 0 0 15px rgba(0, 0, 0, 0.8);
   transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+  will-change: transform;
 }
 
 /* Сектора */
@@ -64,33 +75,39 @@ body {
 .sector::after {
   content: attr(data-number);
   position: absolute;
-  bottom: 25px; /* Расположение номера внизу */
-  left: 57%; /* Центрируем по горизонтали */
+  bottom: 25px;
+  left: 57%;
   font-size: 14px;
   font-weight: bold;
-  color: #fff; /* Белый текст */
-  background: rgba(0, 0, 0, 0.7); /* Темный фон для контраста */
-  width: 24px; /* Размер номера */
-  height: 24px; /* Размер номера */
-  border-radius: 50%; /* Круглая форма */
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* Тень для лучшей читаемости */
-  z-index: 10; /* Гарантируем видимость */
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+}
+
+/* Общий класс для неонового текста */
+.neon-text {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
 /* Стрелка */
 .arrow {
-  position: absolute;
-  top: -15px;
+  position: absolute; /* Позиционирование относительно .roulette-container */
+  top: 50px; /* Расположение над колесом */
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 18px solid transparent;
-  border-right: 18px solid transparent;
-  border-top: 30px solid #00E0FF;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 20px solid #00E0FF;
   filter: 
     drop-shadow(0 0 5px #00E0FF)
     drop-shadow(0 0 10px #00E0FF);
@@ -116,6 +133,7 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  animation: gradientBG 8s ease infinite;
 }
 
 .cta-button:hover {
@@ -151,10 +169,16 @@ body {
 }
 
 .center-circle span {
+  @extend .neon-text;
   font-size: 24px;
   font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Анимация градиента кнопки */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Контейнер для искр */
