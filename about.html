@@ -1,25 +1,21 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Неоновая Рулетка</title>
+  <title>Рулетка</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="roulette-container">
-    <!-- Заголовок -->
-    <h1 class="roulette-title">Неоновая Рулетка</h1>
-
-    <!-- Колесо рулетки -->
-    <div class="roulette-wheel" id="wheel"></div>
-
-    <!-- Стрелка -->
-    <div class="arrow" aria-label="Указатель рулетки"></div>
-
-    <!-- Кнопка -->
-    <button id="spin-btn" class="cta-button" aria-disabled="false">Крутить рулетку</button>
+    <h1 class="roulette-title">Рулетка</h1>
+    <div class="arrow"></div> <!-- Стрелка -->
+    <svg id="wheel" class="roulette-wheel" viewBox="0 0 320 320">
+      <!-- Сектора будут добавлены через JavaScript -->
+    </svg>
+    <button id="spin-btn" class="cta-button">Крутить</button>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
