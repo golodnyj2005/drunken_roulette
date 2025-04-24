@@ -15,137 +15,32 @@ body {
 .roulette-title {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 20px; /* Отступ между заголовком и рулеткой */
-  color: #fff;
+  margin-bottom: 20px;
+  color: #b8860b; 
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
 /* Контейнер рулетки */
 .roulette-container {
-  position: relative; /* Для позиционирования стрелки */
+  position: relative;
   width: 320px;
-  height: auto; /* Высота зависит от содержимого */
+  height: auto;
   margin: 20px;
-  text-align: center; /* Центрируем элементы */
+  text-align: center;
 }
 
 /* Колесо рулетки */
 .roulette-wheel {
   position: relative;
   width: 100%;
-  height: 320px; /* Фиксированная высота */
+  height: 320px;
   border-radius: 50%;
   overflow: hidden;
-  background: conic-gradient(
-    #FF3E9D 0% 8.33%,   /* Розовый неон */
-    #00E0FF 8.33% 16.66%,  /* Голубой неон */
-    #7B2BFF 16.66% 25%, /* Фиолетовый */
-    #FFD600 25% 33.33%, /* Ярко-желтый */
-    #FF7A00 33.33% 41.66%, /* Оранжевый */
-    #00FFA3 41.66% 50%, /* Мятный */
-    #FF1744 50% 58.33%, /* Ярко-красный */
-    #651FFF 58.33% 66.66%, /* Индиго */
-    #00E676 66.66% 75%, /* Зеленый неон */
-    #2979FF 75% 83.33%, /* Кобальтовый */
-    #FF4081 83.33% 91.66%, /* Розовый акцент */
-    #3D5AFE 91.66% 100%  /* Ярко-синий */
-  );
   box-shadow: 
     0 0 25px rgba(255, 62, 157, 0.6),
     inset 0 0 15px rgba(0, 0, 0, 0.8);
   transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
   will-change: transform;
-}
-
-/* Сектора */
-.sector {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transform-origin: center;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 25px;
-  box-sizing: border-box;
-  z-index: 2;
-}
-
-/* Нумерация секторов */
-.sector::after {
-  content: attr(data-number);
-  position: absolute;
-  bottom: 25px;
-  left: 57%;
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.7);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-  z-index: 10;
-}
-
-/* Общий класс для неонового текста */
-.neon-text {
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-}
-
-/* Стрелка */
-.arrow {
-  position: absolute; /* Позиционирование относительно .roulette-container */
-  top: 50px; /* Расположение над колесом */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 20px solid #00E0FF;
-  filter: 
-    drop-shadow(0 0 5px #00E0FF)
-    drop-shadow(0 0 10px #00E0FF);
-  z-index: 10;
-  animation: neonPulse 1.5s infinite alternate;
-}
-
-/* Кнопка */
-.cta-button {
-  margin-top: 30px;
-  padding: 14px 40px;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  background: linear-gradient(45deg, #FF3E9D, #00E0FF, #7B2BFF, #FFD600);
-  background-size: 300% 300%;
-  box-shadow: 
-    0 5px 20px rgba(255, 62, 157, 0.4),
-    0 0 10px rgba(0, 224, 255, 0.4);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  animation: gradientBG 8s ease infinite;
-}
-
-.cta-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 
-    0 8px 25px rgba(255, 62, 157, 0.6),
-    0 0 15px rgba(0, 224, 255, 0.6);
-}
-
-.cta-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
 }
 
 /* Центральный круг */
@@ -169,9 +64,67 @@ body {
 }
 
 .center-circle span {
-  @extend .neon-text;
   font-size: 24px;
   font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Стрелка */
+.arrow {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 20px solid #ffd700;
+  filter: 
+    drop-shadow(0 0 5px #9c7c38)
+    drop-shadow(0 0 10px #e1ad21);
+  z-index: 10;
+  animation: neonPulse 1.5s infinite alternate;
+}
+
+/* Анимация стрелки */
+@keyframes neonPulse {
+  from { opacity: 1; }
+  to { opacity: 0.7; }
+}
+
+/* Кнопка */
+.cta-button {
+  margin-top: 30px;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #c73855, #242021, #af3180, #FFD600);
+  background-size: 300% 300%;
+  box-shadow: 
+    0 5px 20px rgba(255, 62, 157, 0.4),
+    0 0 10px rgba(0, 224, 255, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  animation: gradientBG 8s ease infinite;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(255, 62, 157, 0.6),
+    0 0 15px rgba(0, 224, 255, 0.6);
+}
+
+.cta-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 /* Анимация градиента кнопки */
@@ -179,40 +132,4 @@ body {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-/* Контейнер для искр */
-.sparks {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  pointer-events: none;
-}
-
-/* Искра */
-.spark {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  animation: sparkFly 1s forwards;
-  filter: blur(1px);
-}
-
-/* Анимация искр */
-@keyframes sparkFly {
-  from { 
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-  to { 
-    transform: 
-      translate(
-        calc(var(--tx) * 100px),
-        calc(var(--ty) * 100px)
-      );
-    opacity: 0;
-  }
 }
