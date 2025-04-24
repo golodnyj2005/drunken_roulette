@@ -7,9 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const centerX = 160; // Центр колеса по X
-  const centerY = 160; // Центр колеса по Y
-  const radius = 150; // Радиус колеса
+  // Получаем текущие размеры SVG
+  const svgWidth = wheel.clientWidth;
+  const svgHeight = wheel.clientHeight;
+  const centerX = svgWidth / 2; // Центр колеса по X
+  const centerY = svgHeight / 2; // Центр колеса по Y
+  const radius = Math.min(svgWidth, svgHeight) / 2 - 10; // Радиус колеса
 
   // Массив номеров для каждого сектора (в порядке их расположения)
   const sectorNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     number.setAttribute('text-anchor', 'middle');
     number.setAttribute('alignment-baseline', 'middle');
     number.setAttribute('fill', '#fff');
-    number.setAttribute('font-size', '14');
+    number.setAttribute('font-size', `${svgWidth * 0.04}px`); // Адаптивный размер шрифта
     number.setAttribute('font-weight', 'bold');
     number.textContent = sectorNumbers[i]; // Устанавливаем номер из массива
 
@@ -60,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   centerCircle.setAttribute('cx', centerX);
   centerCircle.setAttribute('cy', centerY);
-  centerCircle.setAttribute('r', '40');
+  centerCircle.setAttribute('r', radius * 0.2); // Относительный размер
   centerCircle.setAttribute('fill', 'rgba(0, 0, 0, 0.8)');
   centerCircle.setAttribute('stroke', 'rgba(255, 255, 255, 0.2)');
   centerCircle.setAttribute('stroke-width', '3');
@@ -69,10 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Добавляем звёздочку
   const star = document.createElementNS('http://www.w3.org/2000/svg', 'text');
   star.setAttribute('x', centerX);
-  star.setAttribute('y', centerY);
+  star.setAttribute('y', centerY + 5); // Смещаем на 5px вниз для лучшего центрирования
   star.setAttribute('text-anchor', 'middle');
-  star.setAttribute('alignment-baseline', 'middle');
-  star.setAttribute('font-size', '24');
+  star.setAttribute('font-size', `${svgWidth * 0.08}px`); // Адаптивный размер шрифта
   star.setAttribute('font-weight', 'bold');
   star.setAttribute('fill', '#fff');
   star.setAttribute('text-shadow', '0 0 10px rgba(255, 255, 255, 0.7)');
