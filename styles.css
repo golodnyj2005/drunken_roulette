@@ -14,18 +14,19 @@ body {
 /* Заголовок */
 .roulette-title {
   text-align: center;
-  font-size: 24px;
+  font-size: clamp(18px, 4vw, 24px); /* Адаптивный размер шрифта */
   margin-bottom: 20px;
-  color: #b8860b; 
+  color: #b8860b;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
 /* Контейнер рулетки */
 .roulette-container {
   position: relative;
-  width: 320px;
+  width: 90%; /* Ширина контейнера зависит от экрана */
+  max-width: 320px; /* Максимальная ширина */
   height: auto;
-  margin: 20px;
+  margin: 20px auto;
   text-align: center;
 }
 
@@ -33,7 +34,8 @@ body {
 .roulette-wheel {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: auto;
+  aspect-ratio: 1 / 1; /* Сохранение пропорций */
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 
@@ -49,8 +51,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80px;
-  height: 80px;
+  width: 25%; /* Относительный размер */
+  height: 25%;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.8);
   border: 3px solid rgba(255, 255, 255, 0.2);
@@ -64,7 +66,7 @@ body {
 }
 
 .center-circle span {
-  font-size: 24px;
+  font-size: clamp(16px, 3vw, 24px); /* Адаптивный размер шрифта */
   font-weight: bold;
   color: #fff;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
@@ -73,14 +75,14 @@ body {
 /* Стрелка */
 .arrow {
   position: absolute;
-  top: 50px;
+  top: 10%; /* Относительное положение */
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 20px solid #ffd700;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 15px solid #ffd700;
   filter: 
     drop-shadow(0 0 5px #9c7c38)
     drop-shadow(0 0 10px #e1ad21);
@@ -96,15 +98,15 @@ body {
 
 /* Кнопка */
 .cta-button {
-  margin-top: 30px;
-  padding: 14px 40px;
-  font-size: 16px;
+  margin-top: 20px;
+  padding: clamp(10px, 2vw, 14px) clamp(20px, 4vw, 40px);
+  font-size: clamp(14px, 3vw, 16px);
   font-weight: bold;
   color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  background: linear-gradient(45deg, #c73855, #242021, #af3180, #FFD600);
+  background: linear-gradient(45deg, #c73855, #242021, #af3180, #FFD700);
   background-size: 300% 300%;
   box-shadow: 
     0 5px 20px rgba(255, 62, 157, 0.4),
@@ -122,14 +124,27 @@ body {
     0 0 15px rgba(0, 224, 255, 0.6);
 }
 
-.cta-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
 /* Анимация градиента кнопки */
 @keyframes gradientBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* Медиазапросы */
+@media (max-width: 600px) {
+  .roulette-title {
+    font-size: 20px;
+  }
+
+  .arrow {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid #ffd700;
+  }
+
+  .cta-button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
 }
