@@ -34,6 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const radius = 150;
   const sectorNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+  // Очищаем колесо перед созданием новых секторов
+  while (wheel.firstChild) {
+    wheel.removeChild(wheel.firstChild);
+  }
+
   sectorNumbers.forEach((number, i) => {
     const startAngle = (i * 30 - 90) * (Math.PI / 180);
     const endAngle = ((i + 1) * 30 - 90) * (Math.PI / 180);
@@ -92,25 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
   star.textContent = '🌟';
   wheel.appendChild(star);
 
-  const spinWheel = () => {
+  const spinWheel = (e) => {
+    if (e) e.preventDefault();
     if (spinBtn.disabled) return;
     
     spinBtn.disabled = true;
     buttonText.textContent = 'Вращается...';
     buttonLoader.style.display = 'block';
     
+    // Сбрасываем анимацию
     wheel.style.transition = 'none';
     wheel.style.transform = 'rotate(0deg)';
+    // Принудительный рефлоу
     void wheel.offsetWidth;
 
-    // Вычисляем точный конечный угол
+    // Вычисляем конечный угол
     const fullRotations = Math.floor(Math.random() * 5) + 5; // 5-9 полных оборотов
     const winningIndex = Math.floor(Math.random() * 12);
     const sectorAngle = 30; // градусов
     const spinAngle = fullRotations * 360 + (360 - (winningIndex * sectorAngle + sectorAngle/2));
     
     wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
-    wheel.style.transform = `rotate(-${spinAngle}deg)`; // Отрицательное значение для правильного направления
+    wheel.style.transform = `rotate(-${spinAngle}deg)`;
 
     setTimeout(() => {
       spinBtn.disabled = false;
@@ -135,11 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       resultElement.classList.remove('show');
       setTimeout(() => {
-        document.body.removeChild(resultElement);
+        if (resultElement.parentNode) {
+          document.body.removeChild(resultElement);
+        }
       }, 300);
     }, 3000);
   };
 
+  // Обработчики событий
   spinBtn.addEventListener('click', spinWheel);
   spinBtn.addEventListener('touchend', spinWheel);
   
