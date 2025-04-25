@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const setContainerSize = () => {
     const size = Math.min(window.innerWidth, window.innerHeight) * 0.8;
     wheelContainer.style.width = `${Math.min(size, 320)}px`;
-    wheelContainer.style.height = `${Math.min(size, 320)}px`;
   };
 
   // Инициализация размеров
