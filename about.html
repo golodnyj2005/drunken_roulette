@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Интерактивная рулетка с 12 секторами">
   <title>Рулетка</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="roulette-container">
     <h1 class="roulette-title">Рулетка</h1>
-    <div class="arrow"></div> <!-- Стрелка -->
-    <svg id="wheel" class="roulette-wheel" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet">
-      <!-- Сектора будут добавлены через JavaScript -->
-    </svg>
-    <button id="spin-btn" class="cta-button">Крутить</button>
+    <div class="arrow" role="presentation" aria-hidden="true"></div>
+    <div class="roulette-wheel-container">
+      <svg id="wheel" class="roulette-wheel" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet" aria-label="Колесо рулетки с 12 секторами">
+        <!-- Сектора будут добавлены через JavaScript -->
+      </svg>
+    </div>
+    <button id="spin-btn" class="cta-button" aria-label="Крутить рулетку">
+      <span class="button-text">Крутить</span>
+      <span class="button-loader" aria-hidden="true"></span>
+    </button>
   </div>
 
   <script src="script.js"></script>
