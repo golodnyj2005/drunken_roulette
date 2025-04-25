@@ -10,15 +10,15 @@
 <body>
   <div class="roulette-container">
     <h1 class="roulette-title">Рулетка</h1>
-    <div class="wheel-wrapper">
-      <div class="arrow"></div>
-      <svg id="wheel" class="roulette-wheel" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet">
+    <div class="arrow" role="presentation" aria-hidden="true"></div>
+    <div class="roulette-wheel-container">
+      <svg id="wheel" class="roulette-wheel" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet" aria-label="Колесо рулетки с 12 секторами">
         <!-- Сектора будут добавлены через JavaScript -->
       </svg>
     </div>
-    <button id="spin-btn" class="cta-button">
+    <button id="spin-btn" class="cta-button" aria-label="Крутить рулетку">
       <span class="button-text">Крутить</span>
-      <span class="button-loader"></span>
+      <span class="button-loader" aria-hidden="true"></span>
     </button>
   </div>
 
