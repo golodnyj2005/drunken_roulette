@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setContainerSize();
   window.addEventListener('resize', setContainerSize);
 
+  // Создание SVG элемента
   const createSVGElement = (tag, attributes) => {
     const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
     for (const [key, value] of Object.entries(attributes)) {
@@ -29,20 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return element;
   };
 
+  // Параметры колеса
   const centerX = 160;
   const centerY = 160;
   const radius = 150;
   const sectorNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  // Очищаем колесо перед созданием новых секторов
+  // Очистка колеса перед созданием секторов
   while (wheel.firstChild) {
     wheel.removeChild(wheel.firstChild);
   }
 
+  // Создание секторов рулетки
   sectorNumbers.forEach((number, i) => {
     const startAngle = (i * 30 - 90) * (Math.PI / 180);
     const endAngle = ((i + 1) * 30 - 90) * (Math.PI / 180);
 
+    // Создание пути сектора
     const path = createSVGElement('path', {
       d: `
         M ${centerX},${centerY}
@@ -56,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'aria-hidden': 'true'
     });
 
+    // Текст в секторе
     const textAngle = (i * 30 - 90 + 15) * (Math.PI / 180);
     const text = createSVGElement('text', {
       x: centerX + radius * 0.7 * Math.cos(textAngle),
@@ -65,7 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
       fill: '#fff',
       'font-size': '14px',
       'font-weight': 'bold',
-      'aria-hidden': 'true'
+      'aria-hidden': 'true',
+      'data-sector-number': number // Добавляем data-атрибут
     });
     text.textContent = number;
 
@@ -73,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     wheel.appendChild(text);
   });
 
+  // Центральный круг
   const centerCircle = createSVGElement('circle', {
     cx: centerX,
     cy: centerY,
@@ -84,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   wheel.appendChild(centerCircle);
 
+  // Декоративная звезда в центре
   const star = createSVGElement('text', {
     x: centerX,
     y: centerY + 5,
@@ -97,41 +105,61 @@ document.addEventListener('DOMContentLoaded', () => {
   star.textContent = '🌟';
   wheel.appendChild(star);
 
-  const spinWheel = (e) => {
-    if (e) e.preventDefault();
-    if (spinBtn.disabled) return;
+  // Определение текущего сектора под стрелкой
+  const getCurrentSector = () => {
+    const wheelStyle = window.getComputedStyle(wheel);
+    const matrix = new DOMMatrix(wheelStyle.transform);
+    const angle = (Math.atan2(matrix.b, matrix.a) * (180 / Math.PI)) % 360;
+    const normalizedAngle = angle < 0 ? angle + 360 : angle;
     
-    spinBtn.disabled = true;
-    buttonText.textContent = 'Вращается...';
-    buttonLoader.style.display = 'block';
+    // Вычисляем индекс сектора (0-11)
+    const sectorIndex = Math.floor(normalizedAngle / 30);
+    // Корректируем индекс, так как сектора расположены против часовой стрелки
+    const correctedIndex = (12 - sectorIndex) % 12;
     
-    // Сбрасываем анимацию
-    wheel.style.transition = 'none';
-    wheel.style.transform = 'rotate(0deg)';
-    // Принудительный рефлоу
-    void wheel.offsetWidth;
-
-    // Вычисляем конечный угол
-    const fullRotations = Math.floor(Math.random() * 5) + 5; // 5-9 полных оборотов
-    const winningIndex = Math.floor(Math.random() * 12);
-    const sectorAngle = 30; // градусов
-    const spinAngle = fullRotations * 360 + (360 - (winningIndex * sectorAngle + sectorAngle/2));
+    // Находим соответствующий text элемент в SVG
+    const texts = wheel.querySelectorAll('text');
+    const sectorText = texts[correctedIndex].textContent;
     
-    wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
-    wheel.style.transform = `rotate(-${spinAngle}deg)`;
-
-    setTimeout(() => {
-      spinBtn.disabled = false;
-      buttonText.textContent = 'Крутить';
-      buttonLoader.style.display = 'none';
-      showResult(sectorNumbers[winningIndex]);
-    }, 4000);
+    return sectorText;
   };
 
-  const showResult = (number) => {
+  // Вращение колеса
+  const spinWheel = (e) => {
+  if (e) e.preventDefault();
+  if (spinBtn.disabled) return;
+  
+  spinBtn.disabled = true;
+  buttonText.textContent = 'Вращается...';
+  buttonLoader.style.display = 'block';
+  
+  // Сбрасываем анимацию
+  wheel.style.transition = 'none';
+  wheel.style.transform = 'rotate(0deg)';
+  void wheel.offsetWidth;
+
+  // Вычисляем конечный угол
+  const fullRotations = Math.floor(Math.random() * 5) + 5; // 5-9 полных оборотов
+  const winningIndex = Math.floor(Math.random() * 12);
+  const sectorAngle = 30; // градусов
+  const spinAngle = fullRotations * 360 + (360 - (winningIndex * sectorAngle + sectorAngle/2));
+  
+  wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
+  wheel.style.transform = `rotate(-${spinAngle}deg)`;
+
+  setTimeout(() => {
+    const sectorNumber = getCurrentSector();
+    spinBtn.disabled = false;
+    buttonText.textContent = 'Крутить';
+    buttonLoader.style.display = 'none';
+    showResult(sectorNumber);
+  }, 4000);
+};
+  // Показ результата
+  const showResult = (sectorNumber) => {
     const resultElement = document.createElement('div');
     resultElement.className = 'result-notification';
-    resultElement.textContent = `Выпал сектор: ${number}`;
+    resultElement.textContent = `Выпал номер: ${sectorNumber}`;
     resultElement.setAttribute('role', 'alert');
     
     document.body.appendChild(resultElement);
