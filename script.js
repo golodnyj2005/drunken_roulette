@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   spinBtn.addEventListener('click', spinWheel);
+  spinBtn.addEventListener('touchend', spinWheel);
   
   spinBtn.addEventListener('touchstart', (e) => {
     e.preventDefault();
