@@ -1,222 +1,257 @@
 :root {
-  --primary-color: #960018; /* Основной цвет (красный) */
-  --secondary-color: #080808; /* Вторичный цвет (черный) */
-  --accent-color: #FFD700; /* Акцентный цвет (золотой) */
-  --text-color: #fff; /* Цвет текста (белый) */
-  --button-gradient-1: #c73855; /* Первый цвет градиента кнопки */
-  --button-gradient-2: #242021; /* Второй цвет градиента кнопки */
-  --button-gradient-3: #af3180; /* Третий цвет градиента кнопки */
+  --primary-color: #960018;
+  --secondary-color: #080808;
+  --accent-color: #FFD700;
+  --text-color: #fff;
+  --button-gradient-1: #c73855;
+  --button-gradient-2: #242021;
+  --button-gradient-3: #af3180;
 }
 
 * {
-  box-sizing: border-box; /* Устанавливаем box-sizing для всех элементов */
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  margin: 0; /* Убираем отступы по умолчанию */
-  font-family: 'Arial', sans-serif; /* Шрифт */
-  background: radial-gradient(circle at center, #2a2a3a 0%, #1a1a2a 100%); /* Градиентный фон */
-  color: var(--text-color); /* Цвет текста */
-  display: flex; /* Используем флексбокс для центрирования */
-  justify-content: center; /* Центрируем по горизонтали */
-  align-items: center; /* Центрируем по вертикали */
-  min-height: 100vh; /* Минимальная высота равна высоте окна */
-  overflow-x: hidden; /* Скрываем горизонтальную прокрутку */
-  touch-action: manipulation; /* Улучшаем работу сенсорных устройств */
-  -webkit-tap-highlight-color: transparent; /* Убираем подсветку при касании */
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: radial-gradient(circle at center, #2a2a3a 0%, #1a1a2a 100%);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  touch-action: manipulation;
 }
 
 .roulette-title {
-  text-align: center; /* Выравнивание текста по центру */
-  font-size: clamp(1.5rem, 5vw, 2rem); /* Адаптивный размер шрифта */
-  margin: 0 0 1.5rem; /* Отступ снизу */
-  color: var(--accent-color); /* Цвет текста */
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Тень текста */
+  text-align: center;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  margin: 0 0 1.5rem;
+  color: var(--accent-color);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
 .roulette-container {
-  position: relative; /* Относительное позиционирование */
-  width: 90%; /* Ширина контейнера */
-  max-width: 400px; /* Максимальная ширина */
-  margin: 1rem auto; /* Отступы сверху и снизу */
-  text-align: center; /* Выравнивание текста по центру */
-  padding: 1rem; /* Внутренние отступы */
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  margin: 1rem auto;
+  text-align: center;
+  padding: 1rem;
 }
 
 .roulette-wheel-container {
-  position: relative; /* Относительное позиционирование */
-  width: 100%; /* Ширина */
-  max-width: 320px; /* Максимальная ширина */
-  margin: 0 auto; /* Центрирование */
-  border-radius: 50%; /* Закругление углов */
-  aspect-ratio: 1 / 1; /* Соотношение сторон */
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 0;
+  padding-bottom: 100%;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.roulette-wheel-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    transparent 60%,
+    rgba(255, 215, 0, 0.15) 80%,
+    rgba(255, 62, 157, 0.3) 100%
+  );
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(255, 215, 0, 0.4);
+  z-index: -1;
 }
 
 .roulette-wheel-container::after {
-  content: ''; /* Создаем псевдоэлемент */
-  position: absolute; /* Абсолютное позиционирование */
-  top: 0; /* Положение сверху */
-  left: 0; /* Положение слева */
-  right: 0; /* Положение справа */
-  bottom: 0; /* Положение снизу */
-  border-radius: 50%; /* Закругление углов */
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  background: transparent;
   box-shadow: 
-    0 0 25px rgba(255, 62, 157, 0.6), /* Внешняя тень */
-    inset 0 0 15px rgba(0, 0, 0, 0.8); /* Внутренняя тень */
-  pointer-events: none; /* Отключаем взаимодействие */
-  z-index: -1; /* Уровень слоя */
+    0 0 25px rgba(255, 62, 157, 0.4),
+    inset 0 0 10px rgba(255, 215, 0, 0.3);
+  z-index: -2;
+  pointer-events: none;
 }
 
 .roulette-wheel {
-  width: 100%; /* Ширина */
-  height: 100%; /* Высота */
-  border-radius: 50%; /* Закругление углов */
-  overflow: visible; /* Видимость переполнения */
-  transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1); /* Анимация вращения */
-  will-change: transform; /* Оптимизация производительности */
-  user-select: none; /* Запрещаем выделение текста */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: visible;
+  transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .arrow {
-  position: absolute; /* Абсолютное позиционирование */
-  top: 50%; /* Центрирование по вертикали */
-  left: 50%; /* Центрирование по горизонтали */
-  transform: translate(-50%, -50%) translateY(-160px); /* Смещение стрелки вверх */
-  width: 0; /* Ширина */
-  height: 0; /* Высота */
-  border-left: 12px solid transparent; /* Левая граница */
-  border-right: 12px solid transparent; /* Правая граница */
-  border-top: 20px solid var(--accent-color); /* Верхняя граница */
-  filter: 
-    drop-shadow(0 0 5px #9c7c38) /* Первая тень */
-    drop-shadow(0 0 10px #e1ad21); /* Вторая тень */
-  z-index: 10; /* Уровень слоя */
-  animation: neonPulse 1.5s infinite alternate; /* Анимация мерцания */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid var(--accent-color);
+  filter: drop-shadow(0 0 5px #9c7c38) drop-shadow(0 0 10px #e1ad21);
+  z-index: 10;
+  animation: neonPulse 1.5s infinite alternate;
 }
 
 @keyframes neonPulse {
-  from { opacity: 1; } /* Начальная непрозрачность */
-  to { opacity: 0.7; } /* Конечная непрозрачность */
+  from { opacity: 1; }
+  to { opacity: 0.7; }
 }
 
 .cta-button {
-  position: relative; /* Относительное позиционирование */
-  margin-top: 1.5rem; /* Отступ сверху */
-  padding: 0.75rem 2rem; /* Внутренние отступы */
-  font-size: 1rem; /* Размер шрифта */
-  font-weight: bold; /* Жирность текста */
-  color: var(--text-color); /* Цвет текста */
-  border: none; /* Убираем границу */
-  border-radius: 50px; /* Закругление углов */
-  cursor: pointer; /* Изменение курсора */
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
   background: linear-gradient(45deg, 
     var(--button-gradient-1), 
     var(--button-gradient-2), 
     var(--button-gradient-3), 
-    var(--accent-color)); /* Градиентный фон */
-  background-size: 300% 300%; /* Размер градиента */
-  box-shadow: 
-    0 5px 20px rgba(255, 62, 157, 0.4), /* Внешняя тень */
-    0 0 10px rgba(0, 224, 255, 0.4); /* Вторая тень */
-  transition: all 0.3s ease; /* Плавные переходы */
-  overflow: hidden; /* Скрываем переполнение */
-  min-width: 120px; /* Минимальная ширина */
-  min-height: 44px; /* Минимальная высота */
-  animation: gradientBG 8s ease infinite; /* Анимация градиента */
+    var(--accent-color));
+  background-size: 300% 300%;
+  box-shadow: 0 5px 20px rgba(255, 62, 157, 0.4), 0 0 10px rgba(0, 224, 255, 0.4);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  min-width: 120px;
+  min-height: 44px;
+  animation: gradientBG 8s ease infinite;
+  -webkit-appearance: none;
 }
 
 .cta-button:hover:not(:disabled),
 .cta-button:focus:not(:disabled) {
-  transform: translateY(-3px); /* Поднятие кнопки */
-  box-shadow: 
-    0 8px 25px rgba(255, 62, 157, 0.6), /* Внешняя тень */
-    0 0 15px rgba(0, 224, 255, 0.6); /* Вторая тень */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 62, 157, 0.6), 0 0 15px rgba(0, 224, 255, 0.6);
 }
 
 .cta-button:active:not(:disabled) {
-  transform: translateY(1px); /* Опущение кнопки */
+  transform: translateY(1px);
 }
 
 .cta-button:disabled {
-  cursor: not-allowed; /* Изменение курсора */
-  opacity: 0.7; /* Прозрачность */
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 @keyframes gradientBG {
-  0% { background-position: 0% 50%; } /* Начальное положение градиента */
-  50% { background-position: 100% 50%; } /* Серединное положение */
-  100% { background-position: 0% 50%; } /* Конечное положение */
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .button-loader {
-  display: none; /* Скрыт по умолчанию */
-  position: absolute; /* Абсолютное позиционирование */
-  top: 50%; /* Центрирование по вертикали */
-  left: 50%; /* Центрирование по горизонтали */
-  transform: translate(-50%, -50%); /* Корректировка положения */
-  width: 20px; /* Ширина */
-  height: 20px; /* Высота */
-  border: 3px solid rgba(255, 255, 255, 0.3); /* Цвет границы */
-  border-radius: 50%; /* Закругление углов */
-  border-top-color: var(--text-color); /* Цвет верхней границы */
-  animation: spin 1s ease-in-out infinite; /* Анимация вращения */
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--text-color);
+  animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-  to { transform: translate(-50%, -50%) rotate(360deg); } /* Полный оборот */
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .result-notification {
-  position: fixed; /* Фиксированное позиционирование */
-  bottom: 20px; /* Расстояние от нижнего края */
-  left: 50%; /* Центрирование по горизонтали */
-  transform: translateX(-50%) translateY(100%); /* Начальное положение за пределами экрана */
-  background-color: rgba(0, 0, 0, 0.8); /* Фон */
-  color: var(--text-color); /* Цвет текста */
-  padding: 1rem 2rem; /* Внутренние отступы */
-  border-radius: 50px; /* Закругление углов */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
-  z-index: 100; /* Уровень слоя */
-  transition: transform 0.3s ease; /* Плавный переход */
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--text-color);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: transform 0.3s ease;
+  font-size: 1rem;
 }
 
 .result-notification.show {
-  transform: translateX(-50%) translateY(0); /* Показ уведомления */
+  transform: translateX(-50%) translateY(0);
 }
 
 @media (max-width: 600px) {
   .roulette-container {
-    width: 95%; /* Увеличиваем ширину на маленьких экранах */
-    padding: 0.5rem; /* Уменьшаем внутренние отступы */
+    width: 95%;
+    padding: 0.5rem;
   }
   
   .arrow {
-    border-left: 8px solid transparent; /* Уменьшаем размер стрелки */
+    border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-top: 12px solid var(--accent-color);
   }
   
   .cta-button {
-    padding: 0.6rem 1.5rem; /* Уменьшаем внутренние отступы */
-    font-size: 0.9rem; /* Уменьшаем размер шрифта */
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .result-notification {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 400px) {
   .roulette-title {
-    font-size: 1.3rem; /* Уменьшаем размер заголовка */
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
   }
   
   .cta-button {
-    min-width: 100px; /* Уменьшаем минимальную ширину */
-    min-height: 40px; /* Уменьшаем минимальную высоту */
+    min-width: 100px;
+    min-height: 40px;
+    margin-top: 1rem;
   }
   
   .roulette-wheel-container {
-    max-width: 280px; /* Уменьшаем максимальную ширину колеса */
+    max-width: 280px;
+  }
+  
+  .result-notification {
+    width: 90%;
+    text-align: center;
+    padding: 0.7rem 1rem;
   }
 }
 
 .cta-button.touched {
-  transform: scale(0.95); /* Эффект уменьшения при касании */
+  transform: scale(0.95);
 }
