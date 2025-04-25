@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   spinBtn.addEventListener('click', spinWheel);
   
+  // Обработчик касания для мобильных устройств
   spinBtn.addEventListener('touchstart', (e) => {
     e.preventDefault();
     spinBtn.classList.add('touched');
