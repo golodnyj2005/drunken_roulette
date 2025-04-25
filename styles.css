@@ -1,92 +1,92 @@
-/* Основные стили */
+:root {
+  --primary-color: #960018;
+  --secondary-color: #080808;
+  --accent-color: #FFD700;
+  --text-color: #fff;
+  --button-gradient-1: #c73855;
+  --button-gradient-2: #242021;
+  --button-gradient-3: #af3180;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
   background: radial-gradient(circle at center, #2a2a3a 0%, #1a1a2a 100%);
-  color: #fff;
+  color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   overflow-x: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Заголовок */
 .roulette-title {
   text-align: center;
-  font-size: clamp(18px, 4vw, 24px); /* Адаптивный размер шрифта */
-  margin-bottom: 20px;
-  color: #b8860b;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  margin: 0 0 1.5rem;
+  color: var(--accent-color);
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
-/* Контейнер рулетки */
 .roulette-container {
   position: relative;
-  width: 90%; /* Ширина контейнера зависит от экрана */
-  max-width: 320px; /* Максимальная ширина */
-  height: auto;
-  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+  margin: 1rem auto;
   text-align: center;
+  padding: 1rem;
 }
 
-.roulette-wheel {
+.roulette-wheel-container {
   position: relative;
-  width: 100%; /* Занимает всю ширину контейнера */
-  aspect-ratio: 1 / 1; /* Гарантирует квадратное соотношение сторон */
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
   border-radius: 50%;
-  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.roulette-wheel-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
   box-shadow: 
     0 0 25px rgba(255, 62, 157, 0.6),
     inset 0 0 15px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.roulette-wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: visible;
   transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
   will-change: transform;
+  user-select: none;
 }
 
-/* Резервное решение для старых браузеров */
-@supports not (aspect-ratio: 1 / 1) {
-  .roulette-wheel {
-    height: 0;
-    padding-top: 100%; /* Создаём квадратный контейнер */
-  }
-}
-
-/* Центральный круг */
-.center-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 25%; /* Относительный размер */
-  height: 25%;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.8);
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5;
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
-}
-
-.center-circle span {
-  font-size: clamp(16px, 3vw, 24px); /* Адаптивный размер шрифта */
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-}
-
-/* Стрелка */
 .arrow {
   position: absolute;
-  top: 10%; /* Относительное положение */
+  top: 50;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 15px solid #ffd700;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 15px solid var(--accent-color);
   filter: 
     drop-shadow(0 0 5px #9c7c38)
     drop-shadow(0 0 10px #e1ad21);
@@ -94,61 +94,129 @@ body {
   animation: neonPulse 1.5s infinite alternate;
 }
 
-/* Анимация стрелки */
 @keyframes neonPulse {
   from { opacity: 1; }
   to { opacity: 0.7; }
 }
 
-/* Кнопка */
 .cta-button {
-  margin-top: 20px;
-  padding: clamp(10px, 2vw, 14px) clamp(20px, 4vw, 40px);
-  font-size: clamp(14px, 3vw, 16px);
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
   font-weight: bold;
-  color: white;
+  color: var(--text-color);
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  background: linear-gradient(45deg, #c73855, #242021, #af3180, #FFD700);
+  background: linear-gradient(45deg, 
+    var(--button-gradient-1), 
+    var(--button-gradient-2), 
+    var(--button-gradient-3), 
+    var(--accent-color));
   background-size: 300% 300%;
   box-shadow: 
     0 5px 20px rgba(255, 62, 157, 0.4),
     0 0 10px rgba(0, 224, 255, 0.4);
   transition: all 0.3s ease;
-  position: relative;
   overflow: hidden;
+  min-width: 120px;
+  min-height: 44px;
   animation: gradientBG 8s ease infinite;
 }
 
-.cta-button:hover {
+.cta-button:hover:not(:disabled),
+.cta-button:focus:not(:disabled) {
   transform: translateY(-3px);
   box-shadow: 
     0 8px 25px rgba(255, 62, 157, 0.6),
     0 0 15px rgba(0, 224, 255, 0.6);
 }
 
-/* Анимация градиента кнопки */
+.cta-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.cta-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 @keyframes gradientBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* Медиазапросы */
-@media (max-width: 600px) {
-  .roulette-title {
-    font-size: 20px;
-  }
+.button-loader {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--text-color);
+  animation: spin 1s ease-in-out infinite;
+}
 
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.result-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--text-color);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.result-notification.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 600px) {
+  .roulette-container {
+    width: 95%;
+    padding: 0.5rem;
+  }
+  
   .arrow {
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 12px solid #ffd700;
+    border-top: 12px solid var(--accent-color);
   }
-
+  
   .cta-button {
-    font-size: 14px;
-    padding: 10px 20px;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
   }
+}
+
+@media (max-width: 400px) {
+  .roulette-title {
+    font-size: 1.3rem;
+  }
+  
+  .cta-button {
+    min-width: 100px;
+    min-height: 40px;
+  }
+  
+  .roulette-wheel-container {
+    max-width: 280px;
+  }
+}
+
+.cta-button.touched {
+  transform: scale(0.95);
 }
