@@ -1,117 +1,154 @@
 document.addEventListener('DOMContentLoaded', () => {
   const wheel = document.getElementById('wheel');
   const spinBtn = document.getElementById('spin-btn');
+  const buttonText = spinBtn.querySelector('.button-text');
+  const buttonLoader = spinBtn.querySelector('.button-loader');
+  const wheelContainer = document.querySelector('.roulette-wheel-container');
 
   if (!wheel || !spinBtn) {
     console.error('Необходимые элементы не найдены!');
     return;
   }
 
-  // Получаем текущие размеры SVG
-  const svgWidth = wheel.clientWidth;
-  const svgHeight = wheel.clientHeight;
-  const centerX = svgWidth / 2; // Центр колеса по X
-  const centerY = svgHeight / 2; // Центр колеса по Y
-  const radius = Math.min(svgWidth, svgHeight) / 2 - 10; // Радиус колеса
+  // Устанавливаем размеры контейнера
+  const setContainerSize = () => {
+    const size = Math.min(window.innerWidth, window.innerHeight) * 0.8;
+    wheelContainer.style.width = `${Math.min(size, 320)}px`;
+    wheelContainer.style.height = `${Math.min(size, 320)}px`;
+  };
 
-  // Массив номеров для каждого сектора (в порядке их расположения)
+  // Инициализация размеров
+  setContainerSize();
+  window.addEventListener('resize', setContainerSize);
+
+  const createSVGElement = (tag, attributes) => {
+    const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [key, value] of Object.entries(attributes)) {
+      element.setAttribute(key, value);
+    }
+    return element;
+  };
+
+  const centerX = 160;
+  const centerY = 160;
+  const radius = 150;
   const sectorNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  // Создаем 12 секторов
-  for (let i = 0; i < 12; i++) {
-    const startAngle = (i * 30 - 90) * (Math.PI / 180); // Начальный угол в радианах
-    const endAngle = ((i + 1) * 30 - 90) * (Math.PI / 180); // Конечный угол в радианах
+  sectorNumbers.forEach((number, i) => {
+    const startAngle = (i * 30 - 90) * (Math.PI / 180);
+    const endAngle = ((i + 1) * 30 - 90) * (Math.PI / 180);
 
-    const x1 = centerX + radius * Math.cos(startAngle);
-    const y1 = centerY + radius * Math.sin(startAngle);
-    const x2 = centerX + radius * Math.cos(endAngle);
-    const y2 = centerY + radius * Math.sin(endAngle);
+    const path = createSVGElement('path', {
+      d: `
+        M ${centerX},${centerY}
+        L ${centerX + radius * Math.cos(startAngle)},${centerY + radius * Math.sin(startAngle)}
+        A ${radius},${radius} 0 0,1 ${centerX + radius * Math.cos(endAngle)},${centerY + radius * Math.sin(endAngle)}
+        Z
+      `,
+      fill: i % 2 === 0 ? '#960018' : '#080808',
+      stroke: '#FFD700',
+      'stroke-width': '2',
+      'aria-hidden': 'true'
+    });
 
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', `
-      M ${centerX},${centerY}
-      L ${x1},${y1}
-      A ${radius},${radius} 0 0,1 ${x2},${y2}
-      Z
-    `);
-
-    path.setAttribute('fill', i % 2 === 0 ? '#960018' : '#080808');
-    path.setAttribute('stroke', '#FFD700'); // Золотая окантовка
-    path.setAttribute('stroke-width', '2');
-
-    // Добавляем номер сектора
-    const number = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    const textRadius = radius * 0.7; // Радиус для текста
-    const textAngle = (i * 30 - 90 + 15) * (Math.PI / 180); // Угол для текста
-    const textX = centerX + textRadius * Math.cos(textAngle);
-    const textY = centerY + textRadius * Math.sin(textAngle);
-
-    number.setAttribute('x', textX);
-    number.setAttribute('y', textY);
-    number.setAttribute('text-anchor', 'middle');
-    number.setAttribute('alignment-baseline', 'middle');
-    number.setAttribute('fill', '#fff');
-    number.setAttribute('font-size', `${svgWidth * 0.04}px`); // Адаптивный размер шрифта
-    number.setAttribute('font-weight', 'bold');
-    number.textContent = sectorNumbers[i]; // Устанавливаем номер из массива
+    const textAngle = (i * 30 - 90 + 15) * (Math.PI / 180);
+    const text = createSVGElement('text', {
+      x: centerX + radius * 0.7 * Math.cos(textAngle),
+      y: centerY + radius * 0.7 * Math.sin(textAngle),
+      'text-anchor': 'middle',
+      'alignment-baseline': 'middle',
+      fill: '#fff',
+      'font-size': '14px',
+      'font-weight': 'bold',
+      'aria-hidden': 'true'
+    });
+    text.textContent = number;
 
     wheel.appendChild(path);
-    wheel.appendChild(number);
-  }
+    wheel.appendChild(text);
+  });
 
-  // Добавляем центральный круг
-  const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  centerCircle.setAttribute('cx', centerX);
-  centerCircle.setAttribute('cy', centerY);
-  centerCircle.setAttribute('r', radius * 0.2); // Относительный размер
-  centerCircle.setAttribute('fill', 'rgba(0, 0, 0, 0.8)');
-  centerCircle.setAttribute('stroke', 'rgba(255, 255, 255, 0.2)');
-  centerCircle.setAttribute('stroke-width', '3');
+  const centerCircle = createSVGElement('circle', {
+    cx: centerX,
+    cy: centerY,
+    r: radius * 0.2,
+    fill: 'rgba(0, 0, 0, 0.8)',
+    stroke: 'rgba(255, 255, 255, 0.2)',
+    'stroke-width': '3',
+    'aria-hidden': 'true'
+  });
   wheel.appendChild(centerCircle);
 
-  // Добавляем звёздочку
-  const star = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  star.setAttribute('x', centerX);
-  star.setAttribute('y', centerY + 5); // Смещаем на 5px вниз для лучшего центрирования
-  star.setAttribute('text-anchor', 'middle');
-  star.setAttribute('font-size', `${svgWidth * 0.08}px`); // Адаптивный размер шрифта
-  star.setAttribute('font-weight', 'bold');
-  star.setAttribute('fill', '#fff');
-  star.setAttribute('text-shadow', '0 0 10px rgba(255, 255, 255, 0.7)');
+  const star = createSVGElement('text', {
+    x: centerX,
+    y: centerY + 5,
+    'text-anchor': 'middle',
+    'font-size': '24px',
+    'font-weight': 'bold',
+    fill: '#fff',
+    'text-shadow': '0 0 10px rgba(255, 255, 255, 0.7)',
+    'aria-hidden': 'true'
+  });
   star.textContent = '🌟';
   wheel.appendChild(star);
 
-  // Анимация вращения
-  spinBtn.addEventListener('click', () => {
+  const spinWheel = () => {
     if (spinBtn.disabled) return;
+    
     spinBtn.disabled = true;
-    spinBtn.setAttribute('aria-disabled', 'true');
+    buttonText.textContent = 'Вращается...';
+    buttonLoader.style.display = 'block';
+    
+    wheel.style.transition = 'none';
+    wheel.style.transform = 'rotate(0deg)';
+    void wheel.offsetWidth;
 
-    // Сброс предыдущей анимации
-    wheel.style.transition = 'none'; // Отключаем анимацию
-    wheel.style.transform = 'rotate(0deg)'; // Сбрасываем угол вращения
-    void wheel.offsetWidth; // Триггер перерисовки для применения изменений
-
-    // Генерируем случайный индекс для выпавшего номера
-    const randomIndex = Math.floor(Math.random() * 12); // Случайный индекс от 0 до 11
-    const winningNumber = sectorNumbers[randomIndex]; // Выпавший номер
-
-    // Случайный угол (5-9 оборотов + смещение для выбранного сектора)
-    const spinAngle = (Math.floor(Math.random() * 5) + 5) * 360 + randomIndex * 30;
-
-    // Включаем анимацию и задаем новое значение угла
+    // Вычисляем точный конечный угол
+    const fullRotations = Math.floor(Math.random() * 5) + 5; // 5-9 полных оборотов
+    const winningIndex = Math.floor(Math.random() * 12);
+    const sectorAngle = 30; // градусов
+    const spinAngle = fullRotations * 360 + (360 - (winningIndex * sectorAngle + sectorAngle/2));
+    
     wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
-    wheel.style.transform = `rotate(${spinAngle}deg)`;
+    wheel.style.transform = `rotate(-${spinAngle}deg)`; // Отрицательное значение для правильного направления
 
-    // Определение результата
     setTimeout(() => {
-      // Отладочная информация
-      console.log(`Индекс сектора: ${randomIndex}, Выпавший номер: ${winningNumber}`);
-
-      // Отображение результата
-      alert(`Выпал сектор: ${winningNumber}`);
       spinBtn.disabled = false;
-      spinBtn.setAttribute('aria-disabled', 'false');
+      buttonText.textContent = 'Крутить';
+      buttonLoader.style.display = 'none';
+      showResult(sectorNumbers[winningIndex]);
     }, 4000);
+  };
+
+  const showResult = (number) => {
+    const resultElement = document.createElement('div');
+    resultElement.className = 'result-notification';
+    resultElement.textContent = `Выпал сектор: ${number}`;
+    resultElement.setAttribute('role', 'alert');
+    
+    document.body.appendChild(resultElement);
+    
+    setTimeout(() => {
+      resultElement.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+      resultElement.classList.remove('show');
+      setTimeout(() => {
+        document.body.removeChild(resultElement);
+      }, 300);
+    }, 3000);
+  };
+
+  spinBtn.addEventListener('click', spinWheel);
+  
+  spinBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    spinBtn.classList.add('touched');
+  });
+  
+  spinBtn.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    spinBtn.classList.remove('touched');
   });
 });
