@@ -244,3 +244,43 @@ body {
 .cta-button.touched {
   transform: scale(0.95); /* Эффект уменьшения при касании */
 }
+
+.number-selector {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.number-selector label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--accent-color);
+}
+
+.number-selector input {
+  width: 80px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--text-color);
+  outline: none;
+}
+
+.number-selector input:focus {
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.win-message {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
+}
+
+.lose-message {
+  color: #f44336;
+  font-weight: bold;
+}
