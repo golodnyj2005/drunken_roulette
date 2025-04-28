@@ -4,8 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const buttonText = spinBtn.querySelector('.button-text');
   const buttonLoader = spinBtn.querySelector('.button-loader');
   const wheelContainer = document.querySelector('.roulette-wheel-container');
+  const numberInput = document.getElementById('number-input');
 
-  if (!wheel || !spinBtn) {
+  if (!wheel || !spinBtn || !numberInput) {
     console.error('Необходимые элементы не найдены!');
     return;
   }
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'font-size': '14px',
       'font-weight': 'bold',
       'aria-hidden': 'true',
-      'data-sector-number': number // Добавляем data-атрибут
+      'data-sector-number': number
     });
     text.textContent = number;
 
@@ -112,12 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const angle = (Math.atan2(matrix.b, matrix.a) * (180 / Math.PI)) % 360;
     const normalizedAngle = angle < 0 ? angle + 360 : angle;
     
-    // Вычисляем индекс сектора (0-11)
     const sectorIndex = Math.floor(normalizedAngle / 30);
-    // Корректируем индекс, так как сектора расположены против часовой стрелки
     const correctedIndex = (12 - sectorIndex) % 12;
     
-    // Находим соответствующий text элемент в SVG
     const texts = wheel.querySelectorAll('text');
     const sectorText = texts[correctedIndex].textContent;
     
@@ -126,40 +124,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Вращение колеса
   const spinWheel = (e) => {
-  if (e) e.preventDefault();
-  if (spinBtn.disabled) return;
-  
-  spinBtn.disabled = true;
-  buttonText.textContent = 'Вращается...';
-  buttonLoader.style.display = 'block';
-  
-  // Сбрасываем анимацию
-  wheel.style.transition = 'none';
-  wheel.style.transform = 'rotate(0deg)';
-  void wheel.offsetWidth;
+    if (e) e.preventDefault();
+    if (spinBtn.disabled) return;
+    
+    const selectedNumber = parseInt(numberInput.value);
+    if (isNaN(selectedNumber)) {
+      showResult(null, "Пожалуйста, выберите номер от 1 до 12");
+      return;
+    }
+    
+    if (selectedNumber < 1 || selectedNumber > 12) {
+      showResult(null, "Пожалуйста, выберите номер от 1 до 12");
+      return;
+    }
+    
+    spinBtn.disabled = true;
+    numberInput.disabled = true;
+    buttonText.textContent = 'Вращается...';
+    buttonLoader.style.display = 'block';
+    
+    // Сбрасываем анимацию
+    wheel.style.transition = 'none';
+    wheel.style.transform = 'rotate(0deg)';
+    void wheel.offsetWidth;
 
-  // Вычисляем конечный угол
-  const fullRotations = Math.floor(Math.random() * 5) + 5; // 5-9 полных оборотов
-  const winningIndex = Math.floor(Math.random() * 12);
-  const sectorAngle = 30; // градусов
-  const spinAngle = fullRotations * 360 + (360 - (winningIndex * sectorAngle + sectorAngle/2));
-  
-  wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
-  wheel.style.transform = `rotate(-${spinAngle}deg)`;
+    // Вычисляем конечный угол
+    const fullRotations = Math.floor(Math.random() * 5) + 5;
+    const winningIndex = Math.floor(Math.random() * 12);
+    const sectorAngle = 30;
+    const spinAngle = fullRotations * 360 + (360 - (winningIndex * sectorAngle + sectorAngle/2));
+    
+    wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
+    wheel.style.transform = `rotate(-${spinAngle}deg)`;
 
-  setTimeout(() => {
-    const sectorNumber = getCurrentSector();
-    spinBtn.disabled = false;
-    buttonText.textContent = 'Крутить';
-    buttonLoader.style.display = 'none';
-    showResult(sectorNumber);
-  }, 4000);
-};
+    setTimeout(() => {
+      const sectorNumber = getCurrentSector();
+      spinBtn.disabled = false;
+      numberInput.disabled = false;
+      buttonText.textContent = 'Крутить';
+      buttonLoader.style.display = 'none';
+      
+      if (parseInt(sectorNumber) === selectedNumber) {
+        showResult(sectorNumber, `Поздравляем! Вы выиграли! Выпал номер ${sectorNumber}`);
+      } else {
+        showResult(sectorNumber, `Выпал номер ${sectorNumber}. Попробуйте еще раз!`);
+      }
+    }, 4000);
+  };
+
   // Показ результата
-  const showResult = (sectorNumber) => {
+  const showResult = (sectorNumber, message) => {
     const resultElement = document.createElement('div');
     resultElement.className = 'result-notification';
-    resultElement.textContent = `Выпал номер: ${(Number(sectorNumber) % 13) - 1}`;
+    
+    if (sectorNumber) {
+      const selectedNumber = parseInt(numberInput.value);
+      if (parseInt(sectorNumber) === selectedNumber) {
+        resultElement.classList.add('win-message');
+      } else {
+        resultElement.classList.add('lose-message');
+      }
+    }
+    
+    resultElement.textContent = message;
     resultElement.setAttribute('role', 'alert');
     
     document.body.appendChild(resultElement);
