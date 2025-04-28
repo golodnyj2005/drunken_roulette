@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const showResult = (sectorNumber) => {
     const resultElement = document.createElement('div');
     resultElement.className = 'result-notification';
-    resultElement.textContent = `Выпал номер: ${sectorNumber}`;
+    resultElement.textContent = `Выпал номер: ${Number(sectorNumber) - 1}`;
     resultElement.setAttribute('role', 'alert');
     
     document.body.appendChild(resultElement);
