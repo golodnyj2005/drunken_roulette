@@ -103,7 +103,7 @@ body {
   position: absolute; /* Абсолютное позиционирование */
   top: 50%; /* Центрирование по вертикали */
   left: 50%; /* Центрирование по горизонтали */
-  transform: translate(-50%, -50%) translateY(-160px); /* Смещение стрелки вверх */
+  transform: translate(-50%, -50%) translateY(-200px); /* Смещение стрелки вверх */
   width: 0; /* Ширина */
   height: 0; /* Высота */
   border-left: 12px solid transparent; /* Левая граница */
