@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const normalizedAngle = angle < 0 ? angle + 360 : angle;
     
     const sectorIndex = Math.floor(normalizedAngle / 30);
-    const correctedIndex = (12 - sectorIndex) % 12;
+    const correctedIndex = (12 - sectorIndex - 1) % 12;
     
     const texts = wheel.querySelectorAll('text');
     const sectorText = texts[correctedIndex].textContent;
