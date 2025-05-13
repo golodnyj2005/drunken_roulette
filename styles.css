@@ -345,7 +345,7 @@ body {
   }
   
   .arrow {
-    transform: translate(-50%, -50%) translateY(-500px);
+    transform: translate(-50%, -50%) translateY(-400px);
   }
   
   .cta-button {
