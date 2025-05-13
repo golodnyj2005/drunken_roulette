@@ -1,20 +1,22 @@
 :root {
-  --primary-color: #960018; /* Основной цвет (красный) */
-  --secondary-color: #080808; /* Вторичный цвет (черный) */
-  --accent-color: #FFD700; /* Акцентный цвет (золотой) */
-  --text-color: #fff; /* Цвет текста (белый) */
-  --button-gradient-1: #c73855; /* Первый цвет градиента кнопки */
-  --button-gradient-2: #242021; /* Второй цвет градиента кнопки */
-  --button-gradient-3: #af3180; /* Третий цвет градиента кнопки */
+  --primary-color: #960018;
+  --secondary-color: #080808;
+  --accent-color: #FFD700;
+  --text-color: #fff;
+  --button-gradient-1: #c73855;
+  --button-gradient-2: #242021;
+  --button-gradient-3: #af3180;
+  --min-touch-target: 44px;
 }
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: radial-gradient(circle at center, #2a2a3a 0%, #1a1a2a 100%);
   color: var(--text-color);
   display: flex;
@@ -23,12 +25,13 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .roulette-title {
   text-align: center;
-  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   margin: 0 0 1.5rem;
   color: var(--accent-color);
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
@@ -97,13 +100,14 @@ body {
   will-change: transform;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: none;
 }
 
 .arrow {
   position: absolute;
-  top: -10px; /* или другое значение, чтобы стрелка была над колесом */
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%) translateY(-200px);
   width: 0;
   height: 0;
   border-left: 12px solid transparent;
@@ -116,22 +120,28 @@ body {
   animation: neonPulse 1.5s infinite alternate;
 }
 
-/* Стили для выбора номера */
 .number-selector {
-  margin: 1.5rem 0;
+  margin: 2rem 0;
   text-align: center;
+}
+
+.number-label {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  display: block;
 }
 
 .number-picker {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.5rem 0;
+  margin: 1rem 0;
+  gap: 0.5rem;
 }
 
 .number-arrow {
-  width: 40px;
-  height: 40px;
+  width: var(--min-touch-target);
+  height: var(--min-touch-target);
   font-size: 1.5rem;
   background: var(--accent-color);
   color: #000;
@@ -142,7 +152,6 @@ body {
   justify-content: center;
   cursor: pointer;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
@@ -152,9 +161,10 @@ body {
 
 #number-input {
   width: 60px;
+  height: var(--min-touch-target);
   margin: 0 10px;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   background: transparent;
   border: none;
   color: var(--text-color);
@@ -162,31 +172,31 @@ body {
 }
 
 .number-grid {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   display: none;
 }
 
 .number-grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  max-width: 260px;
+  gap: 12px;
+  max-width: 280px;
   margin: 0 auto;
+  padding: 0.5rem;
 }
 
 .number-option {
-  width: 50px;
-  height: 50px;
+  width: var(--min-touch-target);
+  height: var(--min-touch-target);
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid var(--accent-color);
   border-radius: 50%;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
   touch-action: manipulation;
 }
 
@@ -204,12 +214,11 @@ body {
   animation: pulse 0.3s ease;
 }
 
-/* Кнопка вращения */
 .cta-button {
   position: relative;
-  margin-top: 1.5rem;
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
+  margin-top: 2rem;
+  padding: 0.875rem 2.5rem;
+  font-size: 1.125rem;
   font-weight: bold;
   color: var(--text-color);
   border: none;
@@ -226,14 +235,14 @@ body {
     0 0 10px rgba(0, 224, 255, 0.4);
   transition: all 0.3s ease;
   overflow: hidden;
-  min-width: 120px;
-  min-height: 44px;
+  min-width: 160px;
+  min-height: var(--min-touch-target);
   animation: gradientBG 8s ease infinite;
 }
 
 .cta-button:hover:not(:disabled),
 .cta-button:focus:not(:disabled) {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 
     0 8px 25px rgba(255, 62, 157, 0.6),
     0 0 15px rgba(0, 224, 255, 0.6);
@@ -262,19 +271,21 @@ body {
   animation: spin 1s ease-in-out infinite;
 }
 
-/* Уведомление о результате */
 .result-notification {
   position: fixed;
-  bottom: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%) translateY(100%);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   color: var(--text-color);
   padding: 1rem 2rem;
   border-radius: 50px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 100;
   transition: transform 0.3s ease;
+  font-size: 1.125rem;
+  min-width: 280px;
+  max-width: 90vw;
 }
 
 .result-notification.show {
@@ -292,7 +303,6 @@ body {
   font-weight: bold;
 }
 
-/* Анимации */
 @keyframes neonPulse {
   from { opacity: 1; }
   to { opacity: 0.7; }
@@ -314,8 +324,11 @@ body {
   100% { transform: scale(1); }
 }
 
-/* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
   .number-grid {
     display: block;
   }
@@ -327,68 +340,57 @@ body {
   .roulette-wheel-container {
     width: 90vmin;
     height: 90vmin;
+    max-width: 280px;
+    max-height: 280px;
   }
   
   .arrow {
-    width: 24px;
-    height: 24px;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 20px solid var(--accent-color);
+    transform: translate(-50%, -50%) translateY(-160px);
   }
   
   .cta-button {
-    padding: 0.6rem 1.5rem;
-    font-size: 0.9rem;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    min-width: 140px;
+  }
+
+  .number-grid-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 240px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 360px) {
+  .roulette-title {
+    font-size: 1.5rem;
+  }
+  
   .number-grid-container {
     grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 200px;
   }
   
   .number-option {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     font-size: 1rem;
   }
+
+  .result-notification {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    min-width: 240px;
+  }
 }
 
-@media (max-width: 400px) {
-  .roulette-title {
-    font-size: 1.3rem;
+@supports (-webkit-touch-callout: none) {
+  .number-option {
+    cursor: default;
   }
   
   .cta-button {
-    min-width: 100px;
-    min-height: 40px;
-  }
-  
-  .roulette-wheel-container {
-    max-width: 280px;
-  }
-}
-
-/* Стиль для нажатия на мобильных */
-.cta-button.touched {
-  transform: scale(0.95);
-}
-
-
-/* Фикс для Firefox */
-@-moz-document url-prefix() {
-  .cta-button {
-    animation: none;
-    background: var(--button-gradient-1);
-  }
-}
-
-/* Фикс для старых Safari */
-@media not all and (min-resolution:.001dpcm) { 
-  @supports (-webkit-appearance:none) {
-    .number-option {
-      transition-duration: 0.1s;
-    }
+    cursor: default;
   }
 }
