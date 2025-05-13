@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Интерактивная рулетка с 12 секторами">
   <title>Рулетка</title>
   <link rel="stylesheet" href="styles.css">
@@ -18,7 +18,7 @@
     </div>
     
     <div class="number-selector">
-      <label for="number-input">Выберите номер:</label>
+      <label for="number-input" class="number-label">Выберите номер:</label>
       <div class="number-picker">
         <button class="number-arrow" id="number-decrease" aria-label="Уменьшить номер">−</button>
         <input type="number" id="number-input" min="1" max="12" value="1" readonly aria-label="Выбранный номер">
@@ -26,18 +26,18 @@
       </div>
       <div class="number-grid">
         <div class="number-grid-container">
-          <div class="number-option" data-number="1" aria-label="Выбрать номер 1" role="button">1</div>
-          <div class="number-option" data-number="2" aria-label="Выбрать номер 2" role="button">2</div>
-          <div class="number-option" data-number="3" aria-label="Выбрать номер 3" role="button">3</div>
-          <div class="number-option" data-number="4" aria-label="Выбрать номер 4" role="button">4</div>
-          <div class="number-option" data-number="5" aria-label="Выбрать номер 5" role="button">5</div>
-          <div class="number-option" data-number="6" aria-label="Выбрать номер 6" role="button">6</div>
-          <div class="number-option" data-number="7" aria-label="Выбрать номер 7" role="button">7</div>
-          <div class="number-option" data-number="8" aria-label="Выбрать номер 8" role="button">8</div>
-          <div class="number-option" data-number="9" aria-label="Выбрать номер 9" role="button">9</div>
-          <div class="number-option" data-number="10" aria-label="Выбрать номер 10" role="button">10</div>
-          <div class="number-option" data-number="11" aria-label="Выбрать номер 11" role="button">11</div>
-          <div class="number-option" data-number="12" aria-label="Выбрать номер 12" role="button">12</div>
+          <div class="number-option" data-number="1" aria-label="Выбрать номер 1" role="button" tabindex="0">1</div>
+          <div class="number-option" data-number="2" aria-label="Выбрать номер 2" role="button" tabindex="0">2</div>
+          <div class="number-option" data-number="3" aria-label="Выбрать номер 3" role="button" tabindex="0">3</div>
+          <div class="number-option" data-number="4" aria-label="Выбрать номер 4" role="button" tabindex="0">4</div>
+          <div class="number-option" data-number="5" aria-label="Выбрать номер 5" role="button" tabindex="0">5</div>
+          <div class="number-option" data-number="6" aria-label="Выбрать номер 6" role="button" tabindex="0">6</div>
+          <div class="number-option" data-number="7" aria-label="Выбрать номер 7" role="button" tabindex="0">7</div>
+          <div class="number-option" data-number="8" aria-label="Выбрать номер 8" role="button" tabindex="0">8</div>
+          <div class="number-option" data-number="9" aria-label="Выбрать номер 9" role="button" tabindex="0">9</div>
+          <div class="number-option" data-number="10" aria-label="Выбрать номер 10" role="button" tabindex="0">10</div>
+          <div class="number-option" data-number="11" aria-label="Выбрать номер 11" role="button" tabindex="0">11</div>
+          <div class="number-option" data-number="12" aria-label="Выбрать номер 12" role="button" tabindex="0">12</div>
         </div>
       </div>
     </div>
