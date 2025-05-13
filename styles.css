@@ -101,9 +101,9 @@ body {
 
 .arrow {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 50%;
-  transform: translate(-50%, -50%) translateY(-200px);
+  transform: translateX(-50%) translateY(-100%);
   width: 0;
   height: 0;
   border-left: 12px solid transparent;
