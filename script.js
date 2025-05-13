@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (parseInt(sectorNumber) === selectedNumber) {
           showResult(sectorNumber, `Поздравляем! Вы Выиграли! Выпал номер ${Number(sectorNumber)}`);
         } else {
-          showResult(sectorNumber, `Выпал номер ${(Number(sectorNumber) % 13) - 1} Попробуйте ещё раз!`);
+          showResult(sectorNumber, `Выпал номер ${Number(sectorNumber)} Попробуйте ещё раз!`);
         }
       }, 4000);
     };
