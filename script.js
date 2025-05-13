@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Получаем элементы DOM
   const wheel = document.getElementById('wheel');
   const spinBtn = document.getElementById('spin-btn');
   const buttonText = spinBtn.querySelector('.button-text');
   const buttonLoader = spinBtn.querySelector('.button-loader');
   const wheelContainer = document.querySelector('.roulette-wheel-container');
   const numberInput = document.getElementById('number-input');
+  const numberDecrease = document.getElementById('number-decrease');
+  const numberIncrease = document.getElementById('number-increase');
+  const numberOptions = document.querySelectorAll('.number-option');
 
+  // Проверка наличия необходимых элементов
   if (!wheel || !spinBtn || !numberInput) {
     console.error('Необходимые элементы не найдены!');
     return;
@@ -122,6 +127,50 @@ document.addEventListener('DOMContentLoaded', () => {
     return sectorText;
   };
 
+  // Обновление визуального выделения выбранного номера
+  const updateNumberSelection = () => {
+    numberOptions.forEach(option => {
+      option.classList.toggle(
+        'selected', 
+        parseInt(option.dataset.number) === parseInt(numberInput.value)
+      );
+    });
+  };
+
+  // Обработчики для кнопок +/-
+  numberDecrease.addEventListener('click', () => {
+    let value = parseInt(numberInput.value) - 1;
+    if (value < 1) value = 12;
+    numberInput.value = value;
+    updateNumberSelection();
+  });
+
+  numberIncrease.addEventListener('click', () => {
+    let value = parseInt(numberInput.value) + 1;
+    if (value > 12) value = 1;
+    numberInput.value = value;
+    updateNumberSelection();
+  });
+
+  // Обработчики для выбора номера из сетки
+  numberOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      // Вибрация на мобильных устройствах (если поддерживается)
+      if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+      }
+      
+      numberInput.value = option.dataset.number;
+      updateNumberSelection();
+      
+      // Анимация выбора
+      option.classList.add('selected-pulse');
+      setTimeout(() => {
+        option.classList.remove('selected-pulse');
+      }, 300);
+    });
+  });
+
   // Вращение колеса
   const spinWheel = (e) => {
     if (e) e.preventDefault();
@@ -140,6 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     spinBtn.disabled = true;
     numberInput.disabled = true;
+    numberDecrease.disabled = true;
+    numberIncrease.disabled = true;
     buttonText.textContent = 'Вращается...';
     buttonLoader.style.display = 'block';
     
@@ -161,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const sectorNumber = getCurrentSector();
       spinBtn.disabled = false;
       numberInput.disabled = false;
+      numberDecrease.disabled = false;
+      numberIncrease.disabled = false;
       buttonText.textContent = 'Крутить';
       buttonLoader.style.display = 'none';
       
@@ -205,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   };
 
-  // Обработчики событий
+  // Обработчики событий для кнопки вращения
   spinBtn.addEventListener('click', spinWheel);
   spinBtn.addEventListener('touchend', spinWheel);
   
@@ -218,4 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     spinBtn.classList.remove('touched');
   });
+
+  // Инициализация при загрузке
+  updateNumberSelection();
 });
