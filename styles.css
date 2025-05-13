@@ -101,7 +101,7 @@ body {
 
 .arrow {
   position: absolute;
-  top: -10px; /* или другое значение, чтобы стрелка была над колесом */
+  top: -50px; /* или другое значение, чтобы стрелка была над колесом */
   left: 50%;
   transform: translateX(-50%);
   width: 0;
