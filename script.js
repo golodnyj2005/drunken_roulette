@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Decorative star in center
     const star = createSVGElement('text', {
       x: centerX,
-      y: centerY + 5,
+      y: centerY + 8,
       'text-anchor': 'middle',
       'font-size': '24px',
       'font-weight': 'bold',
