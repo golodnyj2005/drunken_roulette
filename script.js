@@ -190,12 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const selectedNumber = parseInt(numberInput.value);
       if (isNaN(selectedNumber)) {
-        showResult(null, "Please select a number from 1 to 12");
+        showResult(null, "Пожалуйста, выберите число от 1 до 12");
         return;
       }
       
       if (selectedNumber < 1 || selectedNumber > 12) {
-        showResult(null, "Please select a number from 1 to 12");
+        showResult(null, "Пожалуйста, выберите число от 1 до 12");
         return;
       }
       
