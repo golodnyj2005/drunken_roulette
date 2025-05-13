@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       numberInput.disabled = true;
       numberDecrease.disabled = true;
       numberIncrease.disabled = true;
-      buttonText.textContent = 'Spinning...';
+      buttonText.textContent = 'Вращается...';
       buttonLoader.style.display = 'block';
       
       // Reset animation
@@ -226,13 +226,13 @@ document.addEventListener('DOMContentLoaded', () => {
         numberInput.disabled = false;
         numberDecrease.disabled = false;
         numberIncrease.disabled = false;
-        buttonText.textContent = 'Spin';
+        buttonText.textContent = 'Крутить';
         buttonLoader.style.display = 'none';
         
         if (parseInt(sectorNumber) === selectedNumber) {
-          showResult(sectorNumber, `Congratulations! You won! Number ${sectorNumber} came up`);
+          showResult(sectorNumber, `Поздравляем! Вы Выиграли! Выпал номер ${Number(sectorNumber)}`);
         } else {
-          showResult(sectorNumber, `Number ${sectorNumber} came up. Try again!`);
+          showResult(sectorNumber, `Выпал номер ${(Number(sectorNumber) % 13) - 1} Попробуйте ещё раз!`);
         }
       }, 4000);
     };
