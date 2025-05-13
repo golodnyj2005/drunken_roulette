@@ -9,43 +9,43 @@
 }
 
 * {
-  box-sizing: border-box; /* Устанавливаем box-sizing для всех элементов */
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0; /* Убираем отступы по умолчанию */
-  font-family: 'Arial', sans-serif; /* Шрифт */
-  background: radial-gradient(circle at center, #2a2a3a 0%, #1a1a2a 100%); /* Градиентный фон */
-  color: var(--text-color); /* Цвет текста */
-  display: flex; /* Используем флексбокс для центрирования */
-  justify-content: center; /* Центрируем по горизонтали */
-  align-items: center; /* Центрируем по вертикали */
-  min-height: 100vh; /* Минимальная высота равна высоте окна */
-  overflow-x: hidden; /* Скрываем горизонтальную прокрутку */
-  touch-action: manipulation; /* Улучшаем работу сенсорных устройств */
-  -webkit-tap-highlight-color: transparent; /* Убираем подсветку при касании */
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: radial-gradient(circle at center, #2a2a3a 0%, #1a1a2a 100%);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .roulette-title {
-  text-align: center; /* Выравнивание текста по центру */
-  font-size: clamp(1.5rem, 5vw, 2rem); /* Адаптивный размер шрифта */
-  margin: 0 0 1.5rem; /* Отступ снизу */
-  color: var(--accent-color); /* Цвет текста */
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Тень текста */
+  text-align: center;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  margin: 0 0 1.5rem;
+  color: var(--accent-color);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
 .roulette-container {
-  position: relative; /* Относительное позиционирование */
-  width: 90%; /* Ширина контейнера */
-  max-width: 400px; /* Максимальная ширина */
-  margin: 1rem auto; /* Отступы сверху и снизу */
-  text-align: center; /* Выравнивание текста по центру */
-  padding: 1rem; /* Внутренние отступы */
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  margin: 1rem auto;
+  text-align: center;
+  padding: 1rem;
 }
 
 .roulette-wheel-container {
   position: relative;
-  width: 80vmin; /* Используем vmin для гарантии круглой формы */
+  width: 80vmin;
   height: 80vmin;
   max-width: 320px;
   max-height: 320px;
@@ -100,113 +100,230 @@ body {
 }
 
 .arrow {
-  position: absolute; /* Абсолютное позиционирование */
-  top: 50%; /* Центрирование по вертикали */
-  left: 50%; /* Центрирование по горизонтали */
-  transform: translate(-50%, -50%) translateY(-200px); /* Смещение стрелки вверх */
-  width: 0; /* Ширина */
-  height: 0; /* Высота */
-  border-left: 12px solid transparent; /* Левая граница */
-  border-right: 12px solid transparent; /* Правая граница */
-  border-top: 20px solid var(--accent-color); /* Верхняя граница */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(-200px);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid var(--accent-color);
   filter: 
-    drop-shadow(0 0 5px #9c7c38) /* Первая тень */
-    drop-shadow(0 0 10px #e1ad21); /* Вторая тень */
-  z-index: 10; /* Уровень слоя */
-  animation: neonPulse 1.5s infinite alternate; /* Анимация мерцания */
+    drop-shadow(0 0 5px #9c7c38)
+    drop-shadow(0 0 10px #e1ad21);
+  z-index: 10;
+  animation: neonPulse 1.5s infinite alternate;
 }
 
-@keyframes neonPulse {
-  from { opacity: 1; } /* Начальная непрозрачность */
-  to { opacity: 0.7; } /* Конечная непрозрачность */
+/* Стили для выбора номера */
+.number-selector {
+  margin: 1.5rem 0;
+  text-align: center;
 }
 
+.number-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.number-arrow {
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  background: var(--accent-color);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.number-arrow:active {
+  transform: scale(0.95);
+}
+
+#number-input {
+  width: 60px;
+  margin: 0 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  pointer-events: none;
+}
+
+.number-grid {
+  margin-top: 1rem;
+  display: none;
+}
+
+.number-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+.number-option {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--accent-color);
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.number-option.selected {
+  background: var(--accent-color);
+  color: #000;
+  font-weight: bold;
+}
+
+.number-option:active {
+  transform: scale(0.95);
+}
+
+.selected-pulse {
+  animation: pulse 0.3s ease;
+}
+
+/* Кнопка вращения */
 .cta-button {
-  position: relative; /* Относительное позиционирование */
-  margin-top: 1.5rem; /* Отступ сверху */
-  padding: 0.75rem 2rem; /* Внутренние отступы */
-  font-size: 1rem; /* Размер шрифта */
-  font-weight: bold; /* Жирность текста */
-  color: var(--text-color); /* Цвет текста */
-  border: none; /* Убираем границу */
-  border-radius: 50px; /* Закругление углов */
-  cursor: pointer; /* Изменение курсора */
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
   background: linear-gradient(45deg, 
     var(--button-gradient-1), 
     var(--button-gradient-2), 
     var(--button-gradient-3), 
-    var(--accent-color)); /* Градиентный фон */
-  background-size: 300% 300%; /* Размер градиента */
+    var(--accent-color));
+  background-size: 300% 300%;
   box-shadow: 
-    0 5px 20px rgba(255, 62, 157, 0.4), /* Внешняя тень */
-    0 0 10px rgba(0, 224, 255, 0.4); /* Вторая тень */
-  transition: all 0.3s ease; /* Плавные переходы */
-  overflow: hidden; /* Скрываем переполнение */
-  min-width: 120px; /* Минимальная ширина */
-  min-height: 44px; /* Минимальная высота */
-  animation: gradientBG 8s ease infinite; /* Анимация градиента */
+    0 5px 20px rgba(255, 62, 157, 0.4),
+    0 0 10px rgba(0, 224, 255, 0.4);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  min-width: 120px;
+  min-height: 44px;
+  animation: gradientBG 8s ease infinite;
 }
 
 .cta-button:hover:not(:disabled),
 .cta-button:focus:not(:disabled) {
-  transform: translateY(-3px); /* Поднятие кнопки */
+  transform: translateY(-3px);
   box-shadow: 
-    0 8px 25px rgba(255, 62, 157, 0.6), /* Внешняя тень */
-    0 0 15px rgba(0, 224, 255, 0.6); /* Вторая тень */
+    0 8px 25px rgba(255, 62, 157, 0.6),
+    0 0 15px rgba(0, 224, 255, 0.6);
 }
 
 .cta-button:active:not(:disabled) {
-  transform: translateY(1px); /* Опущение кнопки */
+  transform: translateY(1px);
 }
 
 .cta-button:disabled {
-  cursor: not-allowed; /* Изменение курсора */
-  opacity: 0.7; /* Прозрачность */
-}
-
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; } /* Начальное положение градиента */
-  50% { background-position: 100% 50%; } /* Серединное положение */
-  100% { background-position: 0% 50%; } /* Конечное положение */
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .button-loader {
-  display: none; /* Скрыт по умолчанию */
-  position: absolute; /* Абсолютное позиционирование */
-  top: 50%; /* Центрирование по вертикали */
-  left: 50%; /* Центрирование по горизонтали */
-  transform: translate(-50%, -50%); /* Корректировка положения */
-  width: 20px; /* Ширина */
-  height: 20px; /* Высота */
-  border: 3px solid rgba(255, 255, 255, 0.3); /* Цвет границы */
-  border-radius: 50%; /* Закругление углов */
-  border-top-color: var(--text-color); /* Цвет верхней границы */
-  animation: spin 1s ease-in-out infinite; /* Анимация вращения */
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--text-color);
+  animation: spin 1s ease-in-out infinite;
 }
 
-@keyframes spin {
-  to { transform: translate(-50%, -50%) rotate(360deg); } /* Полный оборот */
-}
-
+/* Уведомление о результате */
 .result-notification {
-  position: fixed; /* Фиксированное позиционирование */
-  bottom: 20px; /* Расстояние от нижнего края */
-  left: 50%; /* Центрирование по горизонтали */
-  transform: translateX(-50%) translateY(100%); /* Начальное положение за пределами экрана */
-  background-color: rgba(0, 0, 0, 0.8); /* Фон */
-  color: var(--text-color); /* Цвет текста */
-  padding: 1rem 2rem; /* Внутренние отступы */
-  border-radius: 50px; /* Закругление углов */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
-  z-index: 100; /* Уровень слоя */
-  transition: transform 0.3s ease; /* Плавный переход */
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--text-color);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: transform 0.3s ease;
 }
 
 .result-notification.show {
-  transform: translateX(-50%) translateY(0); /* Показ уведомления */
+  transform: translateX(-50%) translateY(0);
 }
 
-@media (max-width: 600px) {
+.win-message {
+  color: #4CAF50;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
+}
+
+.lose-message {
+  color: #f44336;
+  font-weight: bold;
+}
+
+/* Анимации */
+@keyframes neonPulse {
+  from { opacity: 1; }
+  to { opacity: 0.7; }
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+  .number-grid {
+    display: block;
+  }
+  
+  .number-picker {
+    margin-bottom: 1.5rem;
+  }
+  
   .roulette-wheel-container {
     width: 90vmin;
     height: 90vmin;
@@ -221,66 +338,57 @@ body {
   }
   
   .cta-button {
-    padding: 0.6rem 1.5rem; /* Уменьшаем внутренние отступы */
-    font-size: 0.9rem; /* Уменьшаем размер шрифта */
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .number-grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .number-option {
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 400px) {
   .roulette-title {
-    font-size: 1.3rem; /* Уменьшаем размер заголовка */
+    font-size: 1.3rem;
   }
   
   .cta-button {
-    min-width: 100px; /* Уменьшаем минимальную ширину */
-    min-height: 40px; /* Уменьшаем минимальную высоту */
+    min-width: 100px;
+    min-height: 40px;
   }
   
   .roulette-wheel-container {
-    max-width: 280px; /* Уменьшаем максимальную ширину колеса */
+    max-width: 280px;
   }
 }
 
+/* Стиль для нажатия на мобильных */
 .cta-button.touched {
-  transform: scale(0.95); /* Эффект уменьшения при касании */
+  transform: scale(0.95);
 }
 
-.number-selector {
-  margin: 1.5rem 0;
-  text-align: center;
+
+/* Фикс для Firefox */
+@-moz-document url-prefix() {
+  .cta-button {
+    animation: none;
+    background: var(--button-gradient-1);
+  }
 }
 
-.number-selector label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--accent-color);
-}
-
-.number-selector input {
-  width: 80px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  text-align: center;
-  border: 2px solid var(--accent-color);
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.3);
-  color: var(--text-color);
-  outline: none;
-}
-
-.number-selector input:focus {
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.win-message {
-  color: #4CAF50;
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
-}
-
-.lose-message {
-  color: #f44336;
-  font-weight: bold;
+/* Фикс для старых Safari */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+    .number-option {
+      transition-duration: 0.1s;
+    }
+  }
 }
