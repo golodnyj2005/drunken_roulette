@@ -10,6 +10,17 @@
 <body>
   <div class="roulette-container">
     <h1 class="roulette-title">Рулетка</h1>
+    
+    <div class="betting-section">
+      <label for="bet-input" class="bet-label">Ваша ставка:</label>
+      <div class="bet-input-container">
+        <button class="bet-arrow" id="bet-decrease" aria-label="Уменьшить ставку">−</button>
+        <input type="number" id="bet-input" min="1" value="100" class="bet-input" aria-label="Сумма ставки" readonly>
+        <button class="bet-arrow" id="bet-increase" aria-label="Увеличить ставку">+</button>
+        <span class="currency">₽</span>
+      </div>
+    </div>
+
     <div class="arrow" role="presentation" aria-hidden="true"></div>
     <div class="roulette-wheel-container">
       <svg id="wheel" class="roulette-wheel" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet" aria-label="Колесо рулетки с 12 секторами">
@@ -24,13 +35,17 @@
         <input type="number" id="number-input" min="1" max="12" value="1" readonly aria-label="Выбранный номер">
         <button class="number-arrow" id="number-increase" aria-label="Увеличить номер">+</button>
       </div>
-      
     </div>
     
     <button id="spin-btn" class="cta-button" aria-label="Крутить рулетку">
       <span class="button-text">Крутить</span>
       <span class="button-loader" aria-hidden="true"></span>
     </button>
+
+    <div class="balance-container">
+      <span class="balance-label">Баланс:</span>
+      <span id="balance" class="balance-amount">1000₽</span>
+    </div>
   </div>
 
   <script src="script.js"></script>
