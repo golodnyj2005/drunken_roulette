@@ -29,12 +29,92 @@ body {
   line-height: 1.5;
 }
 
-.roulette-title {
+.betting-section {
+  margin-bottom: 1.5rem;
   text-align: center;
-  font-size: clamp(1.75rem, 5vw, 2.5rem);
-  margin: 0 0 1.5rem;
+}
+
+.bet-label {
+  display: block;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.bet-input-container {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--accent-color);
+  border-radius: 25px;
+  padding: 0.5rem;
+  max-width: 240px;
+  margin: 0 auto;
+  gap: 0.5rem;
+}
+
+.bet-input {
+  width: 100px;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.25rem;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.bet-input::-webkit-inner-spin-button,
+.bet-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bet-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.bet-arrow {
+  width: var(--min-touch-target);
+  height: var(--min-touch-target);
+  font-size: 1.5rem;
+  background: var(--accent-color);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  transition: transform 0.2s ease;
+}
+
+.bet-arrow:active {
+  transform: scale(0.95);
+}
+
+.currency {
   color: var(--accent-color);
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-left: 0.25rem;
+}
+
+.balance-container {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.balance-label {
+  margin-right: 0.5rem;
+  color: var(--text-color);
+}
+
+.balance-amount {
+  color: var(--accent-color);
+  font-weight: bold;
 }
 
 .roulette-container {
@@ -107,7 +187,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) translateY(-233px);
+  transform: translate(-50%, -50%) translateY(-197px);
   width: 0;
   height: 0;
   border-left: 12px solid transparent;
@@ -345,7 +425,7 @@ body {
   }
   
   .arrow {
-    transform: translate(-50%, -50%) translateY(-220px);
+    transform: translate(-50%, -50%) translateY(-177px);
   }
   
   .cta-button {
@@ -358,6 +438,19 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     max-width: 240px;
+  }
+
+  .bet-input-container {
+    max-width: 220px;
+  }
+
+  .bet-input {
+    width: 80px;
+    font-size: 1.125rem;
+  }
+
+  .balance-container {
+    font-size: 1.125rem;
   }
 }
 
@@ -382,6 +475,19 @@ body {
     font-size: 1rem;
     padding: 0.75rem 1.5rem;
     min-width: 240px;
+  }
+
+  .bet-input-container {
+    max-width: 200px;
+  }
+
+  .bet-input {
+    width: 70px;
+    font-size: 1rem;
+  }
+
+  .balance-container {
+    font-size: 1rem;
   }
 }
 
