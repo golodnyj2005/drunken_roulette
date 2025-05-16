@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Decorative star in center
     const star = createSVGElement('text', {
       x: centerX,
-      y: centerY + 5,
+      y: centerY + 8,
       'text-anchor': 'middle',
       'font-size': '24px',
       'font-weight': 'bold',
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'text-shadow': '0 0 10px rgba(255, 255, 255, 0.7)',
       'aria-hidden': 'true'
     });
-    star.textContent = '🌟';
+    star.textContent = '📀';
     wheel.appendChild(star);
 
     // Get current sector under arrow
