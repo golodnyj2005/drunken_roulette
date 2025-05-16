@@ -11,9 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const numberDecrease = document.getElementById('number-decrease');
     const numberIncrease = document.getElementById('number-increase');
     const numberOptions = document.querySelectorAll('.number-option');
+    const betInput = document.getElementById('bet-input');
+    const betDecrease = document.getElementById('bet-decrease');
+    const betIncrease = document.getElementById('bet-increase');
+    const balanceElement = document.getElementById('balance');
+
+    // Initialize game state
+    let balance = 1000; // Starting balance
+    updateBalance(balance);
 
     // Check if all required elements exist
-    if (!wheel || !spinBtn || !numberInput || !wheelContainer || !numberDecrease || !numberIncrease) {
+    if (!wheel || !spinBtn || !numberInput || !wheelContainer || !numberDecrease || !numberIncrease || !betInput || !balanceElement || !betDecrease || !betIncrease) {
       console.error('Required elements not found!');
       return;
     }
@@ -112,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Decorative star in center
     const star = createSVGElement('text', {
       x: centerX,
-      y: centerY + 8,
+      y: centerY + 5,
       'text-anchor': 'middle',
       'font-size': '24px',
       'font-weight': 'bold',
@@ -120,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'text-shadow': '0 0 10px rgba(255, 255, 255, 0.7)',
       'aria-hidden': 'true'
     });
-    star.textContent = '📀';
+    star.textContent = '🌟';
     wheel.appendChild(star);
 
     // Get current sector under arrow
@@ -139,6 +147,26 @@ document.addEventListener('DOMContentLoaded', () => {
       return sectorText;
     };
 
+    // Update balance display
+    function updateBalance(newBalance) {
+      balance = newBalance;
+      balanceElement.textContent = `${balance}₽`;
+    }
+
+    // Validate bet
+    function validateBet(bet) {
+      const betAmount = parseInt(bet);
+      if (isNaN(betAmount) || betAmount < 1) {
+        showResult(null, "Минимальная ставка 1₽");
+        return false;
+      }
+      if (betAmount > balance) {
+        showResult(null, "Недостаточно средств");
+        return false;
+      }
+      return true;
+    }
+
     // Update visual number selection
     const updateNumberSelection = () => {
       numberOptions.forEach(option => {
@@ -149,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
 
-    // Handlers for +/- buttons
+    // Handlers for number +/- buttons
     numberDecrease.addEventListener('click', () => {
       let value = parseInt(numberInput.value) - 1;
       if (value < 1) value = 12;
@@ -162,6 +190,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (value > 12) value = 1;
       numberInput.value = value;
       updateNumberSelection();
+    });
+
+    // Handlers for bet +/- buttons
+    betDecrease.addEventListener('click', () => {
+      let value = parseInt(betInput.value) - 100;
+      if (value < 100) value = 100;
+      betInput.value = value;
+    });
+
+    betIncrease.addEventListener('click', () => {
+      let value = parseInt(betInput.value) + 100;
+      if (value > balance) value = balance;
+      betInput.value = value;
     });
 
     // Handlers for number selection from grid
@@ -189,13 +230,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (spinBtn.disabled) return;
       
       const selectedNumber = parseInt(numberInput.value);
+      const betAmount = parseInt(betInput.value);
+      
+      if (!validateBet(betAmount)) {
+        return;
+      }
+      
       if (isNaN(selectedNumber)) {
-        showResult(null, "Пожалуйста, выберите число от 1 до 12");
+        showResult(null, "Выберите номер от 1 до 12");
         return;
       }
       
       if (selectedNumber < 1 || selectedNumber > 12) {
-        showResult(null, "Пожалуйста, выберите число от 1 до 12");
+        showResult(null, "Выберите номер от 1 до 12");
         return;
       }
       
@@ -203,7 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
       numberInput.disabled = true;
       numberDecrease.disabled = true;
       numberIncrease.disabled = true;
-      buttonText.textContent = 'Вращается...';
+      betInput.disabled = true;
+      betDecrease.disabled = true;
+      betIncrease.disabled = true;
+      buttonText.textContent = 'Крутим...';
       buttonLoader.style.display = 'block';
       
       // Reset animation
@@ -226,13 +276,21 @@ document.addEventListener('DOMContentLoaded', () => {
         numberInput.disabled = false;
         numberDecrease.disabled = false;
         numberIncrease.disabled = false;
+        betInput.disabled = false;
+        betDecrease.disabled = false;
+        betIncrease.disabled = false;
         buttonText.textContent = 'Крутить';
         buttonLoader.style.display = 'none';
         
         if (parseInt(sectorNumber) === selectedNumber) {
-          showResult(sectorNumber, `Поздравляем! Вы Выиграли! Выпал номер ${Number(sectorNumber)}`);
+          // Win! Player gets 12x their bet
+          const winAmount = betAmount * 12;
+          updateBalance(balance + winAmount);
+          showResult(sectorNumber, `Поздравляем! Вы выиграли ${winAmount}₽!`);
         } else {
-          showResult(sectorNumber, `Выпал номер ${Number(sectorNumber)} Попробуйте ещё раз!`);
+          // Deduct bet amount after spin is complete
+          updateBalance(balance - betAmount);
+          showResult(sectorNumber, `Выпало число ${sectorNumber}. Попробуйте еще раз!`);
         }
       }, 4000);
     };
