@@ -29,6 +29,72 @@ body {
   line-height: 1.5;
 }
 
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sound-toggle {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.sound-toggle:hover {
+  transform: scale(1.1);
+}
+
+.stats-container {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  animation: particle 2s ease-out forwards;
+  opacity: 0;
+  transform: translate(var(--x), var(--y));
+  animation-delay: var(--delay);
+}
+
+@keyframes particle {
+  0% {
+    opacity: 1;
+    transform: translate(50vw, 50vh);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y));
+  }
+}
+
 .betting-section {
   margin-bottom: 1.5rem;
   text-align: center;
@@ -105,6 +171,13 @@ body {
   margin-top: 1.5rem;
   text-align: center;
   font-size: 1.25rem;
+  animation: balancePulse 0.3s ease;
+}
+
+@keyframes balancePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .balance-label {
@@ -115,6 +188,7 @@ body {
 .balance-amount {
   color: var(--accent-color);
   font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .roulette-container {
@@ -187,7 +261,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) translateY(-197px);
+  transform: translate(-50%, -50%) translateY(-135px);
   width: 0;
   height: 0;
   border-left: 12px solid transparent;
@@ -425,7 +499,7 @@ body {
   }
   
   .arrow {
-    transform: translate(-50%, -50%) translateY(-177px);
+    transform: translate(-50%, -50%) translateY(-91px);
   }
   
   .cta-button {
@@ -451,6 +525,11 @@ body {
 
   .balance-container {
     font-size: 1.125rem;
+  }
+
+  .stats-container {
+    font-size: 0.8rem;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -488,15 +567,5 @@ body {
 
   .balance-container {
     font-size: 1rem;
-  }
-}
-
-@supports (-webkit-touch-callout: none) {
-  .number-option {
-    cursor: default;
-  }
-  
-  .cta-button {
-    cursor: default;
   }
 }
