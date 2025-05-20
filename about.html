@@ -9,13 +9,18 @@
 </head>
 <body>
   <div class="roulette-container">
-    <h1 class="roulette-title">Рулетка</h1>
+    <div class="game-header">
+      <h1 class="roulette-title">Рулетка</h1>
+      <button id="sound-toggle" class="sound-toggle" aria-label="Включить/выключить звук">🔈</button>
+    </div>
+    
+    <div id="stats" class="stats-container"></div>
     
     <div class="betting-section">
       <label for="bet-input" class="bet-label">Ваша ставка:</label>
       <div class="bet-input-container">
         <button class="bet-arrow" id="bet-decrease" aria-label="Уменьшить ставку">−</button>
-        <input type="number" id="bet-input" min="1" value="100" class="bet-input" aria-label="Сумма ставки" readonly>
+        <input type="number" id="bet-input" min="100" value="100" class="bet-input" aria-label="Сумма ставки" readonly>
         <button class="bet-arrow" id="bet-increase" aria-label="Увеличить ставку">+</button>
         <span class="currency">₽</span>
       </div>
