@@ -3,6 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const isRoulettePage = window.location.pathname.includes('about.html');
 
   if (isRoulettePage) {
+    // Sound effects
+    const sounds = {
+      spin: new Audio('https://assets.mixkit.co/active_storage/sfx/1444/1444-preview.mp3'),
+      win: new Audio('https://assets.mixkit.co/active_storage/sfx/265/265-preview.mp3'),
+      lose: new Audio('https://assets.mixkit.co/active_storage/sfx/2042/2042-preview.mp3'),
+      click: new Audio('https://assets.mixkit.co/active_storage/sfx/237/237-preview.mp3')
+    };
+
+    // Mute all sounds initially
+    Object.values(sounds).forEach(sound => {
+      sound.volume = 0.5;
+      sound.muted = true;
+    });
+
     // Get DOM elements
     const wheel = document.getElementById('wheel');
     const spinBtn = document.getElementById('spin-btn');
@@ -15,10 +29,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const betDecrease = document.getElementById('bet-decrease');
     const betIncrease = document.getElementById('bet-increase');
     const balanceElement = document.getElementById('balance');
+    const soundToggle = document.getElementById('sound-toggle');
+    const statsElement = document.getElementById('stats');
 
     // Initialize game state
     let balance = 1000; // Starting balance
+    let winStreak = 0;
+    let totalSpins = 0;
+    let totalWins = 0;
+    let soundEnabled = false;
     updateBalance(balance);
+    updateStats();
+
+    // Sound toggle handler
+    soundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      Object.values(sounds).forEach(sound => sound.muted = !soundEnabled);
+      soundToggle.textContent = soundEnabled ? '🔊' : '🔈';
+      sounds.click.play().catch(() => {});
+    });
 
     // Check if all required elements exist
     if (!wheel || !spinBtn || !numberInput || !wheelContainer || !numberDecrease || !numberIncrease || !betInput || !balanceElement || !betDecrease || !betIncrease) {
@@ -147,17 +176,66 @@ document.addEventListener('DOMContentLoaded', () => {
       return sectorText;
     };
 
-    // Update balance display
+    // Update balance display with animation
     function updateBalance(newBalance) {
+      const oldBalance = balance;
       balance = newBalance;
-      balanceElement.textContent = `${balance}₽`;
+      
+      const duration = 1000;
+      const steps = 20;
+      const increment = (newBalance - oldBalance) / steps;
+      let step = 0;
+      
+      const animate = () => {
+        step++;
+        const currentBalance = Math.round(oldBalance + (increment * step));
+        balanceElement.textContent = `${currentBalance}₽`;
+        
+        if (step < steps) {
+          requestAnimationFrame(animate);
+        } else {
+          balanceElement.textContent = `${newBalance}₽`;
+        }
+      };
+      
+      animate();
+    }
+
+    // Update statistics
+    function updateStats() {
+      statsElement.innerHTML = `
+        <div>Выигрышная серия: ${winStreak}</div>
+        <div>Всего игр: ${totalSpins}</div>
+        <div>Побед: ${totalWins}</div>
+        <div>Процент побед: ${totalSpins ? Math.round((totalWins / totalSpins) * 100) : 0}%</div>
+      `;
+    }
+
+    // Create particles for win celebration
+    function createParticles() {
+      const particles = document.createElement('div');
+      particles.className = 'particles';
+      document.body.appendChild(particles);
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.setProperty('--x', `${Math.random() * 100}vw`);
+        particle.style.setProperty('--y', `${Math.random() * 100}vh`);
+        particle.style.setProperty('--delay', `${Math.random() * 2}s`);
+        particles.appendChild(particle);
+      }
+      
+      setTimeout(() => {
+        document.body.removeChild(particles);
+      }, 3000);
     }
 
     // Validate bet
     function validateBet(bet) {
       const betAmount = parseInt(bet);
-      if (isNaN(betAmount) || betAmount < 1) {
-        showResult(null, "Минимальная ставка 1₽");
+      if (isNaN(betAmount) || betAmount < 100) {
+        showResult(null, "Минимальная ставка 100₽");
         return false;
       }
       if (betAmount > balance) {
@@ -179,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handlers for number +/- buttons
     numberDecrease.addEventListener('click', () => {
+      sounds.click.play().catch(() => {});
       let value = parseInt(numberInput.value) - 1;
       if (value < 1) value = 12;
       numberInput.value = value;
@@ -186,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     numberIncrease.addEventListener('click', () => {
+      sounds.click.play().catch(() => {});
       let value = parseInt(numberInput.value) + 1;
       if (value > 12) value = 1;
       numberInput.value = value;
@@ -194,12 +274,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handlers for bet +/- buttons
     betDecrease.addEventListener('click', () => {
+      sounds.click.play().catch(() => {});
       let value = parseInt(betInput.value) - 100;
       if (value < 100) value = 100;
       betInput.value = value;
     });
 
     betIncrease.addEventListener('click', () => {
+      sounds.click.play().catch(() => {});
       let value = parseInt(betInput.value) + 100;
       if (value > balance) value = balance;
       betInput.value = value;
@@ -208,6 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handlers for number selection from grid
     numberOptions.forEach(option => {
       option.addEventListener('click', () => {
+        sounds.click.play().catch(() => {});
+        
         // Vibration on mobile devices (if supported)
         if ('vibrate' in navigator) {
           navigator.vibrate(50);
@@ -246,6 +330,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       
+      sounds.spin.play().catch(() => {});
+      
       spinBtn.disabled = true;
       numberInput.disabled = true;
       numberDecrease.disabled = true;
@@ -270,6 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
       wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
       wheel.style.transform = `rotate(-${spinAngle}deg)`;
 
+      totalSpins++;
+
       setTimeout(() => {
         const sectorNumber = getCurrentSector();
         spinBtn.disabled = false;
@@ -286,12 +374,20 @@ document.addEventListener('DOMContentLoaded', () => {
           // Win! Player gets 12x their bet
           const winAmount = betAmount * 12;
           updateBalance(balance + winAmount);
+          winStreak++;
+          totalWins++;
+          sounds.win.play().catch(() => {});
+          createParticles();
           showResult(sectorNumber, `Поздравляем! Вы выиграли ${winAmount}₽!`);
         } else {
-          // Deduct bet amount after spin is complete
+          // Lose
           updateBalance(balance - betAmount);
+          winStreak = 0;
+          sounds.lose.play().catch(() => {});
           showResult(sectorNumber, `Выпало число ${sectorNumber}. Попробуйте еще раз!`);
         }
+        
+        updateStats();
       }, 4000);
     };
 
