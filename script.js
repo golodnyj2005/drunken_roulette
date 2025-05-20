@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (isRoulettePage) {
     // Sound effects
     const sounds = {
-      spin: new Audio('https://assets.mixkit.co/active_storage/sfx/1444/1444-preview.mp3'),
+      spin: new Audio('https://assets.mixkit.co/active_storage/sfx/2651/2651-preview.mp3'),
       win: new Audio('https://assets.mixkit.co/active_storage/sfx/265/265-preview.mp3'),
       lose: new Audio('https://assets.mixkit.co/active_storage/sfx/2042/2042-preview.mp3'),
       click: new Audio('https://assets.mixkit.co/active_storage/sfx/237/237-preview.mp3')
