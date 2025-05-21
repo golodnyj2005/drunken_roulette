@@ -249,7 +249,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) translateY(-135px);
+  transform: translate(-50%, -50%) translateY(-187px);
   width: 0;
   height: 0;
   border-left: 12px solid transparent;
@@ -487,7 +487,7 @@ body {
   }
   
   .arrow {
-    transform: translate(-50%, -50%) translateY(-91px);
+    transform: translate(-50%, -50%) translateY(-170px);
   }
   
   .cta-button {
