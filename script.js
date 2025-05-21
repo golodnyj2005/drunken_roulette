@@ -30,16 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const betIncrease = document.getElementById('bet-increase');
     const balanceElement = document.getElementById('balance');
     const soundToggle = document.getElementById('sound-toggle');
-    const statsElement = document.getElementById('stats');
-
+    
     // Initialize game state
     let balance = 1000; // Starting balance
-    let winStreak = 0;
-    let totalSpins = 0;
-    let totalWins = 0;
     let soundEnabled = false;
     updateBalance(balance);
-    updateStats();
 
     // Sound toggle handler
     soundToggle.addEventListener('click', () => {
@@ -201,16 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
       animate();
     }
 
-    // Update statistics
-    function updateStats() {
-      statsElement.innerHTML = `
-        <div>Выигрышная серия: ${winStreak}</div>
-        <div>Всего игр: ${totalSpins}</div>
-        <div>Побед: ${totalWins}</div>
-        <div>Процент побед: ${totalSpins ? Math.round((totalWins / totalSpins) * 100) : 0}%</div>
-      `;
-    }
-
     // Create particles for win celebration
     function createParticles() {
       const particles = document.createElement('div');
@@ -356,8 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
       wheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
       wheel.style.transform = `rotate(-${spinAngle}deg)`;
 
-      totalSpins++;
-
       setTimeout(() => {
         const sectorNumber = getCurrentSector();
         spinBtn.disabled = false;
@@ -374,20 +357,15 @@ document.addEventListener('DOMContentLoaded', () => {
           // Win! Player gets 12x their bet
           const winAmount = betAmount * 12;
           updateBalance(balance + winAmount);
-          winStreak++;
-          totalWins++;
           sounds.win.play().catch(() => {});
           createParticles();
           showResult(sectorNumber, `Поздравляем! Вы выиграли ${winAmount}₽!`);
         } else {
           // Lose
           updateBalance(balance - betAmount);
-          winStreak = 0;
           sounds.lose.play().catch(() => {});
           showResult(sectorNumber, `Выпало число ${sectorNumber}. Попробуйте еще раз!`);
         }
-        
-        updateStats();
       }, 4000);
     };
 
