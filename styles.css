@@ -50,18 +50,6 @@ body {
   transform: scale(1.1);
 }
 
-.stats-container {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  font-size: 0.9rem;
-}
-
 .particles {
   position: fixed;
   top: 0;
@@ -525,11 +513,6 @@ body {
 
   .balance-container {
     font-size: 1.125rem;
-  }
-
-  .stats-container {
-    font-size: 0.8rem;
-    grid-template-columns: 1fr;
   }
 }
 
