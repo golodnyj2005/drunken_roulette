@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sound effects
     const sounds = {
       spin: new Audio('https://assets.mixkit.co/active_storage/sfx/1987/1987-preview.mp3'),
-      win: new Audio('https://assets.mixkit.co/active_storage/sfx/265/265-preview.mp3'),
+      win: new Audio('https://assets.mixkit.co/active_storage/sfx/1992/1992-preview.mp3'),
       lose: new Audio('https://assets.mixkit.co/active_storage/sfx/2042/2042-preview.mp3'),
       click: new Audio('https://assets.mixkit.co/active_storage/sfx/237/237-preview.mp3')
     };
